@@ -2,7 +2,9 @@
   "name": "hardware-inventeazaro",
   "version": "0.1.0",
   "dependencies": {
-    "bootstrap": "~3.2.0"
+    "bootstrap": "~3.2.0",
+    "x-editable" : "~1.5.1"
+ 
   },
   "private": true
 }

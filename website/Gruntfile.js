@@ -42,8 +42,12 @@ module.exports = function(grunt) {
         tasks: ['assemble']
       },
       assets: {
-        files: ['<%= config.src %>/{css,js}/*.{css,js}'],
-        tasks: ['copy']
+        files: ['<%= config.src %>/css/*.css'],
+        tasks: ['copy:css']
+      },
+      js: {
+        files: ['<%= config.src %>/js/*.js'],
+        tasks: ['copy:js']
       },
       livereload: {
         options: {
@@ -94,6 +98,12 @@ module.exports = function(grunt) {
       bootstrap: {
         expand: true,
         cwd: 'bower_components/bootstrap/dist/',
+        src: '**',
+        dest: '<%= config.dist %>/assets/'
+      },     
+      xeditable: {
+        expand: true,
+        cwd: 'bower_components/x-editable/dist/bootstrap3-editable/',
         src: '**',
         dest: '<%= config.dist %>/assets/'
       },

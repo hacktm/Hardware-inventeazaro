@@ -1,7 +1,7 @@
 ---
 title: Profile
 ---
-      <div class="row">
+      <div class="row" onload="populateProfile()">
       <div class="col-md-5  toppad  pull-right col-md-offset-3 ">
            <A href="edit.html" >Edit Profile</A>
 
@@ -14,7 +14,7 @@ title: Profile
 
           <div class="panel panel-info">
             <div class="panel-heading">
-              <h3 class="panel-title">Constantin Craciun</h3>
+              <h3 class="panel-title" name='name'>Constantin Craciun</h3>
             </div>
             <div class="panel-body">
               <div class="row">
@@ -32,77 +32,62 @@ title: Profile
                     <dd>Male</dd>
                   </dl>
                 </div>-->
+
                 <div class=" col-md-9 col-lg-9 ">
                   <table class="table table-user-information">
                     <tbody>
                       <tr>
-                        <td>Diabetic:</td>
-                        <td>No</td>
+                        <td>Age</td>
+                        <td name="age">100+</td>
                       </tr>
                       <tr>
-                        <td>Rheumatism:</td>
-                        <td>Yes</td>
-                      </tr>
-                      <tr>
-                        <td>Date of Birth</td>
-                        <td>01/24/1988</td>
+                        <td>Gender</td>
+                        <td name="sex">Male</td>
                       </tr>
                       <tr>
                         <td>CNP</td>
-                        <td>09999999999</td>
+                        <td name="cnp">09999999999</td>
                       </tr>
                       <tr>
                         <td>Height</td>
-                        <td>1.80</td>
+                        <td name="height">1.80</td>
                       </tr>
                       <tr>
                         <td>Weight</td>
-                        <td>70</td>
+                        <td name="weight">70</td>
                       </tr>
                         <td>Family doctor</td>
-                        <td>Tanti Tanta</td>
+                        <td name="family_doctor">Tanti Tanta</td>
                       <tr>
                       <tr>
                         <td>Blood Group</td>
-                        <td>A</td>
+                        <td name="bloud_group">A</td>
                       </tr>
                       <tr>
-                        <td>Phone</td>
-                        <td>075555555</td>
-                      </tr>
-                      <tr>
-                        <td>Emergency Contact</td>
-                        <td>Cineva</td>
+                        <td>Phone number </td>
+                        <td name="phone" >075555555</td>
                       </tr>
                       <tr>
                         <td>Emergency Contact</td>
-                        <td>Aero</td>
+                        <td name="emergency_contact">Cineva</td>
                       </tr>
                       <tr>
-                        <td>Emergency relation</td>
-                        <td>Dog( mad )</td>
+                        <td>Emergency Relation</td>
+                        <td name="emergency_relation">Aero</td>
                       </tr>
                       <tr>
                         <td>Emergency Phone</td>
-                        <td>075555555</td>
+                        <td name="emergency_phone">075555555</td>
                       </tr>
-
-
-                     <tr>
-                        <td>Gender</td>
-                        <td>Male</td>
-                     </tr>
-                        <tr>
+                      <tr>
                         <td>Home Address</td>
                         <td>Pe undeva</td>
                       </tr>
                       <tr>
                         <td>Email</td>
-                        <td><a href="mailto:info@support.com">aaa@dsds.com</a></td>
+                        <td name="email">aaa@dsds.com</td>
                       </tr>
-                        <td>Phone Number</td>
-                        <td>07555555<br>
-                        </td>
+
 
                       </tr>
 
