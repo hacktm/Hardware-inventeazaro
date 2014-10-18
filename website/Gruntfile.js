@@ -22,7 +22,15 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-	
+
+    shell: {
+      options: {
+         stderr: false
+      },
+      target: {
+         command: 'sh update-site.sh'
+      }
+    },
     config: {
       src: 'src',
       dist: 'dist'
@@ -30,8 +38,12 @@ module.exports = function(grunt) {
 
     watch: {
       assemble: {
-        files: ['<%= config.src %>/{content,data,templates}/{,*/}*.{md,hbs,yml}'],
+      files: ['<%= config.src %>/{content,data,templates}/{,*/}*.{md,hbs,yml}'],
         tasks: ['assemble']
+      },
+      assets: {
+        files: ['<%= config.src %>/assets/*.css'],
+        tasks: ['copy:theme']
       },
       livereload: {
         options: {
@@ -106,6 +118,12 @@ module.exports = function(grunt) {
     'connect:livereload',
     'watch'
   ]);
+  grunt.registerTask('release', [
+    'build',
+    'shell'
+
+  ]);
+
 
   grunt.registerTask('build', [
     'clean',

@@ -1,5 +1,5 @@
 #!/bin/bash 
-cp -r website/dist /tmp
+cp -r dist /tmp
 git commit -am "updated website files"
 git checkout gh-pages
 cp -r /tmp/dist/* .

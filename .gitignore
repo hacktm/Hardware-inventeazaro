@@ -19,3 +19,5 @@ website/bower_components
 *.sublime-*
 hacktm
 *.swp
+
+backend/venv
