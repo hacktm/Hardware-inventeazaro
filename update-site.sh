@@ -13,6 +13,6 @@ cp -r /tmp/dist/* .
 git add .
 git commit -am "updated website files"
 git push
-exit
+
 git checkout master
 git push
