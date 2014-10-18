@@ -34,6 +34,40 @@ class UserProfile(models.Model):
         return self.user.username
 
 
+class UserMedicalHistory(models.Model):
+    user = models.OneToOneField(User)
+    date = models.DateTimeField(auto_now_add=True)
+    current_problems = models.TextField(blank=True)
+    regular_medication = models.TextField(blank=True)
+    allergies = models.TextField(blank=True)
+    injuries = models.TextField(blank=True)
+    # Have/Had
+    epilepsy = models.BooleanField(default=False)
+    diabetes = models.BooleanField(default=False)
+    heart_problems = models.BooleanField(default=False)
+    heart_murmur = models.BooleanField(default=False)
+    asthma_bronchitis = models.BooleanField(default=False)
+    hernia = models.BooleanField(default=False)
+    concussion = models.BooleanField(default=False)
+    fracture_last_3y = models.BooleanField(default=False)
+    fracture_description = models.CharField(max_length=64, blank=True)
+    dislocation = models.BooleanField(default=False)
+    dislocation_description = models.CharField(max_length=64, blank=True)
+    recurring_pain = models.BooleanField(default=False)  # recurring pain with play/practice
+    recurring_pain_description = models.CharField(max_length=64, blank=True)
+    back_neck_pain = models.BooleanField(default=False)
+
+    # Wearing
+    glasses = models.BooleanField(default=False)
+    contact_lenses = models.BooleanField(default=False)
+    protective_equipment = models.BooleanField(default=False)
+    mouth_guard = models.BooleanField(default=False)
+
+    # Treated for
+    head_neck_spinal_injury = models.BooleanField(default=False)
+    head_neck_spinal_injury_description = models.TextField(blank=True)
+
+
 def create_user_profile(sender, instance, created, **kwargs):
     """Create the UserProfile when a new User is saved"""
     if created:
