@@ -6,6 +6,7 @@ echo $DIR
 cd $DIR
 
 cp -r dist /tmp
+git add website
 git commit -am "updated website files"
 git checkout gh-pages
 cp -r /tmp/dist/* .
