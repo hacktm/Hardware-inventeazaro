@@ -15,7 +15,7 @@ results
 npm-debug.log
 website/node_modules
 website/app/bower_components
-
+website/dist
 *.sublime-*
 hacktm
 *.swp

@@ -1,42 +1,11 @@
-.main {
-  margin-left: 0px;
-  margin-right: 0px;
-  margin-right: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-  width:100%;
 
-}
-.theme-dropdown .dropdown-menu {
-  position: static;
-  display: block;
-  margin-bottom: 20px;
-}
-
-.theme-showcase > p > .btn {
-  margin: 5px 0;
-}
-
-.theme-showcase .navbar .container {
-  width: auto;
-}
-.slide {
-  width : 100%;
-  background-color: #FFF;
-
-}
-/*!
- * Start Bootstrap - Grayscale Bootstrap Theme (http://startbootstrap.com)
- * Code licensed under the Apache License v2.0.
- * For details, see http://www.apache.org/licenses/LICENSE-2.0.
- */
 
 body {
     width: 100%;
     height: 100%;
     font-family: Lora,"Helvetica Neue",Helvetica,Arial,sans-serif;
     color: #fff;
-    background-color: #80d040;
+    background-color: #FFFFFF;
 }
 
 html {
@@ -121,4 +90,54 @@ a {
 .slide{
   z-index: 0;
   position:absolute;
+}
+.main {
+  padding : 0px !important;
+  margin  : 0px !important;
+  margin-top  : 0px !important;
+  width:100% !important;
+
+}
+.theme-dropdown .dropdown-menu {
+  position: static;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.theme-showcase > p > .btn {
+  margin: 5px 0;
+}
+
+.theme-showcase .navbar .container {
+  width: auto;
+}
+.slide {
+  width : 100%;
+  background-color: #FFF;
+
+}
+
+.navbar-inverse {
+  background-color: #71f57a;
+  background-image: -o-linear-gradient(top,#71f57a 0,##71f57a 100%);
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#71f57a),to(##71f57a));
+  background-image: linear-gradient(to bottom,#71f57a 0,#71f57a 100%);
+}
+.theme-showcase {
+  margin-top:100px;
+  background-color:#FFF;
+  color:#000;
+  -webkit-box-shadow: 0px 0px 14px 0px rgb(10, 152, 2);
+  -moz-box-shadow:    0px 0px 14px 0px rgb(10, 152, 2);
+  box-shadow:         0px 0px 14px 0px rgb(10, 152, 2);
+
+}
+
+.b{
+    width: 90px;
+}
+.btn-circle{
+  font-size:1.2em;
+  text-align:center;
+  padding-top:15px;
 }
