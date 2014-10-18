@@ -97,7 +97,7 @@ $.fn.editable.defaults.mode = 'inline';
   page = page.charAt(0).toUpperCase() + page.slice(1);
   var fn = window[page + 'Controller'];
   if(typeof fn === 'function') {
-      if(page != 'auth' && page != 'index')
+      if(page != 'login' && page != 'index')
         {
         $.ajaxSetup({
         beforeSend: function (request)      {
@@ -105,7 +105,7 @@ $.fn.editable.defaults.mode = 'inline';
 
         }
         });
-        }
+      }
       fn();
   }
 
