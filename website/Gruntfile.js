@@ -124,7 +124,13 @@ module.exports = function(grunt) {
        cwd: 'src/js/',
        src: '**',
        dest: '<%= config.dist %>/js/'
-     } 
+     },
+     font: {
+       expand: true,
+       cwd: 'src/fonts/',
+       src: '**',
+       dest: '<%= config.dist %>/fonts/'
+     }     
     },
 
     // Before generating any new files,
