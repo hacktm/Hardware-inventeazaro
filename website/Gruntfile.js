@@ -23,10 +23,6 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
 	
-	shell: {
-				   target
-		   }
-
     config: {
       src: 'src',
       dist: 'dist'
