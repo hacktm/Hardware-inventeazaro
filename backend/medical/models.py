@@ -23,51 +23,7 @@ class Doctor(models.Model):
         return self.name
 
 
-class DeviceHubProject(models.Model):
-    id = models.IntegerField(max_length=10, primary_key=True)
-    api_key = models.CharField(max_length=64)
 
-    def get_latest_sensor_value(self, sensor_id):
-        get_url = settings.DEVICEHUB_API_BASE + \
-                  'project/' + str(self.id) + \
-                  '/sensor/' + str(sensor_id) + \
-                  '/?limit=1&apiKey=' + self.api_key
-
-        h = httplib2.Http()
-        resp, content = h.request(get_url, "GET")
-        content = json.loads(content)
-        return content[0]['value']
-
-    @property
-    def pulse(self):
-        return self.get_latest_sensor_value(876)
-
-    @property
-    def ambient_temperature(self):
-        return self.get_latest_sensor_value(877)
-
-    @property
-    def ambient_humidity(self):
-        return self.get_latest_sensor_value(878)
-
-    @property
-    def ambient_air_quality(self):
-        return self.get_latest_sensor_value(879)
-
-    @property
-    def temperature(self):
-        return self.get_latest_sensor_value(880)
-
-    @property
-    def blood_sugar(self):
-        return self.get_latest_sensor_value(881)
-
-    @property
-    def panic(self):
-        return self.get_latest_sensor_value(882)
-
-    def __unicode__(self):
-        return str(self.id)
 
 
 class UserProfile(models.Model):
@@ -85,7 +41,7 @@ class UserProfile(models.Model):
     emergency_relation = models.CharField(max_length=64, blank=True, null=True)
     emergency_phone = models.CharField(max_length=20, blank=True, null=True)
 
-    devicehub_project = models.OneToOneField(DeviceHubProject, blank=True, null=True)
+    # devicehub_project = models.OneToOneField(DeviceHubProject, blank=True, null=True)
 
     gravatar_img = models.CharField(max_length=128, blank=True, null=True)
 
@@ -133,6 +89,54 @@ class UserMedicalHistory(models.Model):
 
     def __unicode__(self):
         return self.user.username
+
+
+class DeviceHubProject(models.Model):
+    userprofile = models.OneToOneField(UserProfile)
+    id = models.IntegerField(max_length=10, primary_key=True)
+    api_key = models.CharField(max_length=64)
+
+    def get_latest_sensor_value(self, sensor_id):
+        get_url = settings.DEVICEHUB_API_BASE + \
+                  'project/' + str(self.id) + \
+                  '/sensor/' + str(sensor_id) + \
+                  '/?limit=1&apiKey=' + self.api_key
+
+        h = httplib2.Http()
+        resp, content = h.request(get_url, "GET")
+        content = json.loads(content)
+        return content[0]['value']
+
+    @property
+    def pulse(self):
+        return self.get_latest_sensor_value(876)
+
+    @property
+    def ambient_temperature(self):
+        return self.get_latest_sensor_value(877)
+
+    @property
+    def ambient_humidity(self):
+        return self.get_latest_sensor_value(878)
+
+    @property
+    def ambient_air_quality(self):
+        return self.get_latest_sensor_value(879)
+
+    @property
+    def temperature(self):
+        return self.get_latest_sensor_value(880)
+
+    @property
+    def blood_sugar(self):
+        return self.get_latest_sensor_value(881)
+
+    @property
+    def panic(self):
+        return self.get_latest_sensor_value(882)
+
+    def __unicode__(self):
+        return str(self.id)
 
 
 def create_user_profile(sender, instance, created, **kwargs):

@@ -53,7 +53,7 @@ class UserLatestData(APIView):
     def get(self, request, format=None):
         user = request.user
         try:
-            dh = user.userprofile.devicehub_project
+            dh = user.userprofile.devicehubproject
             if not isinstance(dh, DeviceHubProject):
                 raise NoHardwareEndpoint
         except Exception as e:
@@ -67,6 +67,11 @@ class UserLatestData(APIView):
                 'success': True,
                 'pulse': dh.pulse,
                 'temperature': dh.temperature,
+                'blood_sugar': dh.blood_sugar,
+                'ambient_temperature': dh.ambient_temperature,
+                'ambient_humidity': dh.ambient_humidity,
+                'ambient_air_quality': dh.ambient_air_quality,
+                'panic': dh.panic,
             }
             return Response(data)
 
