@@ -23,6 +23,14 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
 	
+    shell: {
+      options: {
+         stderr: false
+      },
+      target: {
+         command: 'sh ../update-site.sh'
+      }
+    },
     config: {
       src: 'src',
       dist: 'dist'
@@ -106,6 +114,12 @@ module.exports = function(grunt) {
     'connect:livereload',
     'watch'
   ]);
+  grunt.registerTask('release', [
+    'build',
+    'shell'
+  
+  ]);
+
 
   grunt.registerTask('build', [
     'clean',
