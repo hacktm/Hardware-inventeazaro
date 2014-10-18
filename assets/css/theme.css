@@ -5,7 +5,7 @@ body {
     height: 100%;
     font-family: Lora,"Helvetica Neue",Helvetica,Arial,sans-serif;
     color: #fff;
-    background-color: #80d040;
+    background-color: #FFFFFF;
 }
 
 html {
@@ -118,15 +118,19 @@ a {
 }
 
 .navbar-inverse {
-  background-image: -webkit-linear-gradient(top,#00bc32 0,##7eff4f 100%);
-  background-image: -o-linear-gradient(top,#00bc32 0,##7eff4f 100%);
-  background-image: -webkit-gradient(linear,left top,left bottom,from(#3c3c3c),to(##7eff4f));
-  background-image: linear-gradient(to bottom,#00bc32 0,#7eff4f 100%);
+  background-color: #71f57a;
+  background-image: -o-linear-gradient(top,#71f57a 0,##71f57a 100%);
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#71f57a),to(##71f57a));
+  background-image: linear-gradient(to bottom,#71f57a 0,#71f57a 100%);
 }
 .theme-showcase {
   margin-top:100px;
   background-color:#FFF;
   color:#000;
+  -webkit-box-shadow: 0px 0px 14px 0px rgb(10, 152, 2);
+  -moz-box-shadow:    0px 0px 14px 0px rgb(10, 152, 2);
+  box-shadow:         0px 0px 14px 0px rgb(10, 152, 2);
+
 }
 
 .b{
