@@ -105,7 +105,7 @@ $.fn.editable.defaults.mode = 'inline';
 
         }
         });
-        }
+      }
       fn();
   }
 
