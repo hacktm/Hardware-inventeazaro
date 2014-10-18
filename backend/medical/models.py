@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from rest_framework.authtoken.models import Token
 
 # Create your models here.
 
@@ -22,22 +23,22 @@ class DeviceHubProject(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    age = models.IntegerField(max_length=3)
-    sex = models.IntegerField(choices=SEX)
-    cnp = models.IntegerField(max_length=13)  # CNP
-    height = models.IntegerField(max_length=3)  # cm
-    weight = models.IntegerField(max_length=3)  # kg
-    family_doctor = models.ForeignKey(Doctor)
-    blood_group = models.CharField(max_length=3)
-    phone = models.CharField(max_length=20)
+    age = models.IntegerField(max_length=3, blank=True, null=True)
+    sex = models.IntegerField(choices=SEX, blank=True, null=True)
+    cnp = models.IntegerField(max_length=13, blank=True, null=True)  # CNP
+    height = models.IntegerField(max_length=3, blank=True, null=True)  # cm
+    weight = models.IntegerField(max_length=3, blank=True, null=True)  # kg
+    family_doctor = models.ForeignKey(Doctor, blank=True, null=True)
+    blood_group = models.CharField(max_length=3, blank=True, null=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
 
-    emergency_contact = models.CharField(max_length=64)
-    emergency_relation = models.CharField(max_length=64)
-    emergency_phone = models.CharField(max_length=20)
+    emergency_contact = models.CharField(max_length=64, blank=True, null=True)
+    emergency_relation = models.CharField(max_length=64, blank=True, null=True)
+    emergency_phone = models.CharField(max_length=20, blank=True, null=True)
 
-    devicehub_project = models.OneToOneField(DeviceHubProject)
+    devicehub_project = models.OneToOneField(DeviceHubProject, blank=True, null=True)
 
-    gravatar_img = models.CharField(max_length=128, blank=True)
+    gravatar_img = models.CharField(max_length=128, blank=True, null=True)
 
     def __unicode__(self):
         return self.user.username
@@ -85,6 +86,7 @@ def create_user_profile(sender, instance, created, **kwargs):
         profile.save()
 
 post_save.connect(create_user_profile, sender=User)
+
 
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:

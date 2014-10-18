@@ -16,11 +16,12 @@ class UserRecordSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ("user", )
+        # fields = ("user", )
+
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    profile = ProfileSerializer(many=False)
+    userprofile = ProfileSerializer(many=False)
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'email', 'first_name', 'last_name')
+        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'userprofile')

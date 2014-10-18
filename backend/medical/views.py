@@ -31,13 +31,14 @@ class UserDetail(generics.RetrieveAPIView):
     serializer_class = UserRecordSerializer
 
 
-@authentication_classes((TokenAuthentication, SessionAuthentication))
-@permission_classes((IsAuthenticated,))
+#@authentication_classes((TokenAuthentication, SessionAuthentication))
+#@permission_classes((IsAuthenticated,))
 class UserProfile(APIView):
     serializer_class = UserProfileSerializer
 
     def get(self, request, format=None):
-        user = User.objects.get(pk=1)
+        user = User.objects.get(pk=2)
+        # user = request.user
         serializer = UserProfileSerializer(user, many=False)
         return JSONResponse(serializer.data)
 
