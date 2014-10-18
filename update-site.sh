@@ -5,7 +5,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 echo $DIR
 cd $DIR
 
-cp -r dist /tmp
+cp -r website/dist /tmp
 git add website
 git commit -am "updated website files"
 git checkout gh-pages
