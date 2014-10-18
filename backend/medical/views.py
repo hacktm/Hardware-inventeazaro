@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from models import UserProfile, UserMedicalHistory
-from serializers import UserRecordSerializer, UserProfileSerializer
+from serializers import UserMedicalHistorySerializer, UserProfileSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
@@ -26,19 +26,24 @@ class JSONResponse(HttpResponse):
         super(JSONResponse, self).__init__(content, **kwargs)
 
 
-class UserDetail(generics.RetrieveAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserRecordSerializer
-
-
 #@authentication_classes((TokenAuthentication, SessionAuthentication))
 #@permission_classes((IsAuthenticated,))
 class UserProfile(APIView):
-    serializer_class = UserProfileSerializer
-
     def get(self, request, format=None):
-        user = User.objects.get(pk=2)
-        # user = request.user
+        # user = User.objects.get(pk=2)
+        user = request.user
         serializer = UserProfileSerializer(user, many=False)
         return JSONResponse(serializer.data)
 
+    def post(self, request, format=None):
+        return HttpResponse("not implemented yet", status=404)
+
+
+class UserMedicalHistory(APIView):
+    def get(self, request, format=None):
+        user = request.user
+        serializer = UserMedicalHistorySerializer(user, many=False)
+        return JSONResponse(serializer.data)
+
+    def post(self, request, format=None):
+        return HttpResponse("not implemented yet", status=404)

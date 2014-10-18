@@ -46,7 +46,8 @@ class UserProfile(models.Model):
 
 class UserMedicalHistory(models.Model):
     user = models.OneToOneField(User)
-    date = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True, auto_created=True)
+    updated = models.DateTimeField(auto_now_add=True, auto_created=True)
     current_problems = models.TextField(blank=True)
     regular_medication = models.TextField(blank=True)
     allergies = models.TextField(blank=True)
@@ -76,6 +77,9 @@ class UserMedicalHistory(models.Model):
     # Treated for
     head_neck_spinal_injury = models.BooleanField(default=False)
     head_neck_spinal_injury_description = models.TextField(blank=True)
+
+    def __unicode__(self):
+        return self.user.username
 
 
 def create_user_profile(sender, instance, created, **kwargs):
