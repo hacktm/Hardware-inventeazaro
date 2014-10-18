@@ -28,7 +28,7 @@ module.exports = function(grunt) {
          stderr: false
       },
       target: {
-         command: 'sh update-site.sh'
+         command: 'sh ../update-site.sh'
       }
     },
     config: {
