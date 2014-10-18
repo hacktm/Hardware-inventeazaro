@@ -42,7 +42,7 @@ module.exports = function(grunt) {
         tasks: ['assemble']
       },
       assets: {
-        files: ['<%= config.src %>/assets/*.css'],
+        files: ['<%= config.src %>/css/*.css'],
         tasks: ['copy:theme']
       },
       livereload: {
@@ -99,10 +99,17 @@ module.exports = function(grunt) {
       },
       theme: {
         expand: true,
-        cwd: 'src/assets/',
+        cwd: 'src/css/',
         src: '**',
         dest: '<%= config.dist %>/assets/css/'
+      },
+      img: {
+        expand: true,
+        cwd: 'src/img/',
+        src: '**',
+        dest: '<%= config.dist %>/assets/img/'
       }
+       
     },
 
     // Before generating any new files,
