@@ -26,11 +26,10 @@ class JSONResponse(HttpResponse):
         super(JSONResponse, self).__init__(content, **kwargs)
 
 
-#@authentication_classes((TokenAuthentication, SessionAuthentication))
-#@permission_classes((IsAuthenticated,))
+@authentication_classes((TokenAuthentication, SessionAuthentication))
+@permission_classes((IsAuthenticated,))
 class UserProfile(APIView):
     def get(self, request, format=None):
-        # user = User.objects.get(pk=2)
         user = request.user
         serializer = UserProfileSerializer(user, many=False)
         return JSONResponse(serializer.data)
@@ -39,6 +38,8 @@ class UserProfile(APIView):
         return HttpResponse("not implemented yet", status=404)
 
 
+@authentication_classes((TokenAuthentication, SessionAuthentication))
+@permission_classes((IsAuthenticated,))
 class UserMedicalHistory(APIView):
     def get(self, request, format=None):
         user = request.user
