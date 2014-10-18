@@ -4,43 +4,64 @@
 #include "Wire.h"
 #include "LiquidCrystal.h"
 
-
-
-
+//DHT11 - temperature & humidity ambient
 dht11 DHT11;
 #define DHT11PIN 8
-
-
-byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-
-char apiKey[] = "afb7baff-25c4-42cd-9795-56ccdfff4c35";
-char apiserver[] = "devicehub.net";
-
-
 #define temp_amb    "Temp_amb"
 #define humidity_amb    "Humidity_amb"
+#define pulse_user    "Pulse"
+#define alcool_user    "Air_qual"
+#define blood_user  "Blood_sugar"
+#define temp_user  "Temp_body"
+#define panic_user  "Panic_btn"
 
+//Ethernet
+byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
+char apiKey[] = "afb7baff-25c4-42cd-9795-56ccdfff4c35";
+char apiserver[] = "devicehub.net";
 EthernetClient apiClient;
-
 unsigned long lastConnectionTime = 0;             // last time you connected to the server, in milliseconds
 boolean lastConnected = false;
 const unsigned long postingInterval = 30L*1000L;  // delay between updates to devicehub.net
 
-// Connect via i2c, default address #0 (A0-A2 not jumpered)
+// LCD - Connect via i2c, default address #0 (A0-A2 not jumpered)
 LiquidCrystal lcd(0);
 
-void setup(){
-  lcd.begin(16, 2);
+//  Pulse
+int pulsePin = 0;                 // Pulse Sensor purple wire connected to analog pin 0
+int blinkPin = 13;                // pin to blink led at each beat
+int fadePin = 5;                  // pin to do fancy classy fading blink at each beat
+int fadeRate = 0;                 // used to fade LED on with PWM on fadePin
+// these variables are volatile because they are used during the interrupt service routine!
+volatile int BPM;                   // used to hold the pulse rate
+volatile int Signal;                // holds the incoming raw data
+volatile int IBI = 600;             // holds the time between beats, must be seeded! 
+volatile boolean Pulse = false;     // true when pulse wave is high, false when it's low
+volatile boolean QS = false;        // becomes true when Arduoino finds a beat.
+float last_bpm;
+float sugar_level = 80;
+float temp_body = 30;
+float panic_btn = 0;
 
+void setup(){
+  Serial.begin(9600);
+  //Ethernet
+  Ethernet.begin(mac);
+  //LCD
+  lcd.begin(16, 2);
   lcd.setBacklight(HIGH);
   lcd.print("Home Care Hub");
-  
- Serial.begin(9600);
- Ethernet.begin(mac);
- 
   lcd.setCursor(0, 1);
   lcd.print("IP: ");
   lcd.print(Ethernet.localIP());
+  //Pulse
+  pinMode(blinkPin,OUTPUT);         // pin that will blink to your heartbeat!
+  pinMode(fadePin,OUTPUT);          // pin that will fade to your heartbeat!
+  Serial.begin(115200);             // we agree to talk fast!
+  //interruptSetup();                 // sets up to read Pulse Sensor signal every 2mS 
+  // UN-COMMENT THE NEXT LINE IF YOU ARE POWERING The Pulse Sensor AT LOW VOLTAGE, 
+  // AND APPLY THAT VOLTAGE TO THE A-REF PIN
+  //analogReference(EXTERNAL); 
 }
 
 void loop() {
@@ -54,7 +75,7 @@ void loop() {
   // through the loop, then stop the client:
   if (!apiClient.connected() && lastConnected) {
     lcd.setCursor(0, 1);
-    lcd.print("upload done    ");
+    lcd.print("upload done     ");
     apiClient.stop();
   }
 
@@ -70,7 +91,18 @@ void loop() {
   // store the state of the connection for next time through
   // the loop:
   lastConnected = apiClient.connected();
+  
 
+  //sendDataToProcessing('S', Signal);     // send Processing the raw Pulse Sensor data
+  if (QS == true){                       // Quantified Self flag is true when arduino finds a heartbeat
+   fadeRate = 255;                  // Set 'fadeRate' Variable to 255 to fade LED with pulse
+   sendDataToProcessing('B',BPM);   // send heart rate with a 'B' prefix
+   last_bpm = BPM;
+   Serial.println(BPM);
+   //sendDataToProcessing('Q',IBI);   // send time between beats with a 'Q' prefix
+   QS = false;                      // reset the Quantified Self flag for next time    
+  }
+  ledFadeToBeat();
 }
 
 // this method makes a HTTP connection to the devicehub server:
@@ -79,8 +111,14 @@ void sendData() {
   
    int chk = DHT11.read(DHT11PIN);
     
+    
    float sensor1 = (int)DHT11.temperature;
    float sensor2 = (int)DHT11.humidity;
+   float sensor3 = last_bpm;
+   float sensor4 = analogRead(A2); //alcool
+   float sensor5 = sugar_level;
+   float sensor6 = temp_body;
+   float sensor7 = panic_btn;
    
   //lcd.setCursor(0, 1);
   //lcd.print(sensor1);
@@ -90,10 +128,22 @@ void sendData() {
     // send the HTTP PUT request:
     apiClient.print(F("GET /io/453/?apiKey="));
     apiClient.print(apiKey);
+    //apiClient.print(F("&" pulse_user "="));
+    //apiClient.print((int)sensor3, DEC);
     apiClient.print(F("&" temp_amb "="));
     apiClient.print((int)sensor1, DEC);
     apiClient.print(F("&" humidity_amb "="));
     apiClient.print((int)sensor2, DEC);
+    apiClient.print(F("&" pulse_user "="));
+    apiClient.print((int)sensor3, DEC);
+    apiClient.print(F("&" alcool_user "="));
+    apiClient.print((int)sensor4, DEC);
+    apiClient.print(F("&" blood_user "="));
+    apiClient.print((int)sensor5, DEC);
+    apiClient.print(F("&" temp_user "="));
+    apiClient.print((int)sensor6, DEC);
+    apiClient.print(F("&" panic_user "="));
+    apiClient.print((int)sensor7, DEC);
   
   
     apiClient.println(F(" HTTP/1.1"));
@@ -153,4 +203,16 @@ double dewPointFast(double celsius, double humidity)
   double temp = (a * celsius) / (b + celsius) + log(humidity/100);
   double Td = (b * temp) / (a - temp);
   return Td;
+}
+
+void ledFadeToBeat(){
+  fadeRate -= 15;                         //  set LED fade value
+  fadeRate = constrain(fadeRate,0,255);   //  keep LED fade value from going into negative numbers!
+  analogWrite(fadePin,fadeRate);          //  fade LED
+}
+
+
+void sendDataToProcessing(char symbol, int data ){
+  Serial.print(symbol);                // symbol prefix tells Processing what type of data is coming
+  Serial.println(data);                // the data to send culminating in a carriage return
 }
