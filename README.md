@@ -2,7 +2,9 @@
 
 > The best project ever..
 
-## [Site](http://hacktm.github.io/Hardware-inventeazaro/)
+* website - http://hacktm.github.io/Hardware-inventeazaro/
+* backend - http://medical.devicehub.net
+* hardware
 
 ## To Do :
 * Documentation
