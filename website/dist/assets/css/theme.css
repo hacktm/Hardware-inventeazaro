@@ -68,7 +68,7 @@ a {
     -moz-background-size: cover;
     background-size: cover;
     -o-background-size: cover;
-    background: url(assets/img/intro-bg.jpg) no-repeat top center scroll;
+    background: url(img/intro-bg.jpg) no-repeat top center scroll;
 
 }
 
