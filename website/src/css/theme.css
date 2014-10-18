@@ -1,35 +1,4 @@
-.main {
-  margin-left: 0px;
-  margin-right: 0px;
-  margin-right: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-  width:100%;
 
-}
-.theme-dropdown .dropdown-menu {
-  position: static;
-  display: block;
-  margin-bottom: 20px;
-}
-
-.theme-showcase > p > .btn {
-  margin: 5px 0;
-}
-
-.theme-showcase .navbar .container {
-  width: auto;
-}
-.slide {
-  width : 100%;
-  background-color: #FFF;
-
-}
-/*!
- * Start Bootstrap - Grayscale Bootstrap Theme (http://startbootstrap.com)
- * Code licensed under the Apache License v2.0.
- * For details, see http://www.apache.org/licenses/LICENSE-2.0.
- */
 
 body {
     width: 100%;
@@ -55,7 +24,12 @@ a {
     }
 }
 
-
+.navbar-inverse {
+  background-image: -webkit-linear-gradient(top,#00bc32 0,##7eff4f 100%);
+  background-image: -o-linear-gradient(top,#00bc32 0,##7eff4f 100%);
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#3c3c3c),to(##7eff4f));
+  background-image: linear-gradient(to bottom,#00bc32 0,#7eff4f 100%);
+}
 .intro {
     display: table;
     width: 100%;
@@ -121,4 +95,44 @@ a {
 .slide{
   z-index: 0;
   position:absolute;
+}
+.main {
+
+  padding-left: 0px;
+  padding-right: 0px;
+  width:100%;
+
+}
+.theme-dropdown .dropdown-menu {
+  position: static;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.theme-showcase > p > .btn {
+  margin: 5px 0;
+}
+
+.theme-showcase .navbar .container {
+  width: auto;
+}
+.slide {
+  width : 100%;
+  background-color: #FFF;
+
+}
+.theme-showcase {
+  margin-top:100px;
+  background-color:#FFF;
+  color:#000;
+}
+
+
+.b{
+    width: 90px;
+}
+.btn-circle{
+  font-size:1.2em;
+  text-align:center;
+  padding-top:15px;
 }
