@@ -15,6 +15,11 @@ class Doctor(models.Model):
     name = models.CharField(max_length=60)
 
 
+class DeviceHubProject(models.Model):
+    id = models.IntegerField(max_length=10, primary_key=True)
+    api_key = models.CharField(max_length=64)
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     age = models.IntegerField(max_length=3)
@@ -29,6 +34,10 @@ class UserProfile(models.Model):
     emergency_contact = models.CharField(max_length=64)
     emergency_relation = models.CharField(max_length=64)
     emergency_phone = models.CharField(max_length=20)
+
+    devicehub_project = models.OneToOneField(DeviceHubProject)
+
+    gravatar_img = models.CharField(max_length=128, blank=True)
 
     def __unicode__(self):
         return self.user.username
@@ -76,3 +85,9 @@ def create_user_profile(sender, instance, created, **kwargs):
         profile.save()
 
 post_save.connect(create_user_profile, sender=User)
+
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
+
+post_save.connect(create_auth_token, sender=User)

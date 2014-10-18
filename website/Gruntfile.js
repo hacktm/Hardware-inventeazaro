@@ -28,7 +28,7 @@ module.exports = function(grunt) {
          stderr: false
       },
       target: {
-         command: 'sh ../update-site.sh'
+         command: '../update-site.sh'
       }
     },
     config: {
@@ -42,8 +42,8 @@ module.exports = function(grunt) {
         tasks: ['assemble']
       },
       assets: {
-        files: ['<%= config.src %>/css/*.css'],
-        tasks: ['copy:theme']
+        files: ['<%= config.src %>/{css,js}/*.{css,js}'],
+        tasks: ['copy']
       },
       livereload: {
         options: {
@@ -108,8 +108,13 @@ module.exports = function(grunt) {
         cwd: 'src/img/',
         src: '**',
         dest: '<%= config.dist %>/assets/img/'
-      }
-       
+      },
+      js: {
+       expand: true,
+       cwd: 'src/js/',
+       src: '**',
+       dest: '<%= config.dist %>/js/'
+     } 
     },
 
     // Before generating any new files,
