@@ -33,12 +33,7 @@ $('input[name="submit"]').click(function (e) {
     })
     .done(function(response){
         sessionStorage.token = response.token;
-        $.ajaxSetup({
-        beforeSend: function (request)      {
-          request.setRequestHeader("Authorization", 'Token ' + sessionStorage.token || "None");
 
-        }
-        });
 
         window.location = 'profile.html'
 
@@ -102,6 +97,15 @@ $.fn.editable.defaults.mode = 'inline';
   page = page.charAt(0).toUpperCase() + page.slice(1);
   var fn = window[page + 'Controller'];
   if(typeof fn === 'function') {
+      if(page != 'auth' && page != 'index')
+        {
+        $.ajaxSetup({
+        beforeSend: function (request)      {
+          request.setRequestHeader("Authorization", 'Token ' + sessionStorage.token || "None");
+
+        }
+        });
+        }
       fn();
   }
 
