@@ -33,7 +33,10 @@ $('input[name="submit"]').click(function (e) {
     })
     .done(function(response){
         sessionStorage.token = response.token;
+
+
         window.location = 'profile.html'
+
     });
 
 
@@ -87,18 +90,22 @@ function ProfileController()
 }
 (function ($){
 $.fn.editable.defaults.mode = 'inline';
-  $.ajaxSetup({
-  beforeSend: function (request)      {
-    request.setRequestHeader("Authorization", 'Token ' + sessionStorage.token || "None");
 
-  }
-  });
   var page =  window.location.pathname.replace('/Hardware-inventeazaro/', '').replace('/', '').replace('.html', '');
   if(page == '')
     page = 'index'
   page = page.charAt(0).toUpperCase() + page.slice(1);
   var fn = window[page + 'Controller'];
   if(typeof fn === 'function') {
+      if(page != 'auth' && page != 'index')
+        {
+        $.ajaxSetup({
+        beforeSend: function (request)      {
+          request.setRequestHeader("Authorization", 'Token ' + sessionStorage.token || "None");
+
+        }
+        });
+        }
       fn();
   }
 
