@@ -94,20 +94,17 @@ $.fn.editable.defaults.mode = 'inline';
   var page =  window.location.pathname.replace('/Hardware-inventeazaro/', '').replace('/', '').replace('.html', '');
   if(page == '')
     page = 'index'
+  if(page != 'login' && page != 'index')
+  {
+    $.ajaxSetup({
+    beforeSend: function (request)      {
+      request.setRequestHeader("Authorization", 'Token ' + sessionStorage.token || "None");
+  })
+  }
+
   page = page.charAt(0).toUpperCase() + page.slice(1);
   var fn = window[page + 'Controller'];
   if(typeof fn === 'function') {
-      debugger
-      if(page != 'login' && page != 'index')
-        {
-        debugger
-        $.ajaxSetup({
-        beforeSend: function (request)      {
-          request.setRequestHeader("Authorization", 'Token ' + sessionStorage.token || "None");
-
-        }
-        });
-      }
       fn();
   }
 
