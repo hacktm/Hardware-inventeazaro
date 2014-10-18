@@ -15,10 +15,16 @@ SEX = (
 class Doctor(models.Model):
     name = models.CharField(max_length=60)
 
+    def __unicode__(self):
+        return self.name
+
 
 class DeviceHubProject(models.Model):
     id = models.IntegerField(max_length=10, primary_key=True)
     api_key = models.CharField(max_length=64)
+
+    def __unicode__(self):
+        return str(self.id)
 
 
 class UserProfile(models.Model):
@@ -39,6 +45,10 @@ class UserProfile(models.Model):
     devicehub_project = models.OneToOneField(DeviceHubProject, blank=True, null=True)
 
     gravatar_img = models.CharField(max_length=128, blank=True, null=True)
+
+    @property
+    def sex_meta(self):
+        return SEX
 
     def __unicode__(self):
         return self.user.username
