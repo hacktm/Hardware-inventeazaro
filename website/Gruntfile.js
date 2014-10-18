@@ -22,7 +22,7 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-	
+
     shell: {
       options: {
          stderr: false
@@ -38,8 +38,12 @@ module.exports = function(grunt) {
 
     watch: {
       assemble: {
-        files: ['<%= config.src %>/{content,data,templates}/{,*/}*.{md,hbs,yml}'],
+      files: ['<%= config.src %>/{content,data,templates}/{,*/}*.{md,hbs,yml}'],
         tasks: ['assemble']
+      },
+      assets: {
+        files: ['<%= config.src %>/assets/*.css'],
+        tasks: ['copy:theme']
       },
       livereload: {
         options: {
@@ -117,7 +121,7 @@ module.exports = function(grunt) {
   grunt.registerTask('release', [
     'build',
     'shell'
-  
+
   ]);
 
 
