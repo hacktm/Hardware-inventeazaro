@@ -44,7 +44,30 @@ class UserMedicalHistory(APIView):
 @permission_classes((IsAuthenticated,))
 class UserDataHistory(APIView):
     def get(self, request, format=None):
-        return Response('none')
+        user = request.user
+        max_num_points = 1000
+        try:
+            dh = user.userprofile.devicehubproject
+            if not isinstance(dh, DeviceHubProject):
+                raise NoHardwareEndpoint
+        except Exception as e:
+            data = {
+                'success': False,
+                'error_msg': e.message,
+            }
+            return Response(data)
+        else:
+            data = {
+                'success': True,
+                'pulse': dh.pulse(limit=max_num_points),
+                'temperature': dh.temperature(limit=max_num_points),
+                'blood_sugar': dh.blood_sugar(limit=max_num_points),
+                'ambient_temperature': dh.ambient_temperature(limit=max_num_points),
+                'ambient_humidity': dh.ambient_humidity(limit=max_num_points),
+                'ambient_air_quality': dh.ambient_air_quality(limit=max_num_points),
+                'panic': dh.panic(limit=max_num_points),
+            }
+            return Response(data)
 
 
 @authentication_classes((TokenAuthentication, SessionAuthentication))
@@ -65,13 +88,13 @@ class UserLatestData(APIView):
         else:
             data = {
                 'success': True,
-                'pulse': dh.pulse,
-                'temperature': dh.temperature,
-                'blood_sugar': dh.blood_sugar,
-                'ambient_temperature': dh.ambient_temperature,
-                'ambient_humidity': dh.ambient_humidity,
-                'ambient_air_quality': dh.ambient_air_quality,
-                'panic': dh.panic,
+                'pulse': dh.pulse(),
+                'temperature': dh.temperature(),
+                'blood_sugar': dh.blood_sugar(),
+                'ambient_temperature': dh.ambient_temperature(),
+                'ambient_humidity': dh.ambient_humidity(),
+                'ambient_air_quality': dh.ambient_air_quality(),
+                'panic': dh.panic(),
             }
             return Response(data)
 

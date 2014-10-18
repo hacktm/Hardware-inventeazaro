@@ -23,9 +23,6 @@ class Doctor(models.Model):
         return self.name
 
 
-
-
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     age = models.IntegerField(max_length=3, blank=True, null=True)
@@ -96,44 +93,41 @@ class DeviceHubProject(models.Model):
     id = models.IntegerField(max_length=10, primary_key=True)
     api_key = models.CharField(max_length=64)
 
-    def get_latest_sensor_value(self, sensor_id):
+    def get_latest_sensor_value(self, sensor_id, limit=1):
         get_url = settings.DEVICEHUB_API_BASE + \
-                  'project/' + str(self.id) + \
-                  '/sensor/' + str(sensor_id) + \
-                  '/?limit=1&apiKey=' + self.api_key
+                    'project/' + str(self.id) + \
+                    '/sensor/' + str(sensor_id) + \
+                    '/?limit=' + str(limit) + \
+                    '&apiKey=' + self.api_key
 
         h = httplib2.Http()
         resp, content = h.request(get_url, "GET")
         content = json.loads(content)
-        return content[0]['value']
+        if len(content) == 1:
+            return content[0]['value']
+        else:
+            return [x['value'] for x in content]
 
-    @property
-    def pulse(self):
-        return self.get_latest_sensor_value(876)
+    def pulse(self, limit=1):
+        return self.get_latest_sensor_value(876, limit)
 
-    @property
-    def ambient_temperature(self):
-        return self.get_latest_sensor_value(877)
+    def ambient_temperature(self, limit=1):
+        return self.get_latest_sensor_value(877, limit)
 
-    @property
-    def ambient_humidity(self):
-        return self.get_latest_sensor_value(878)
+    def ambient_humidity(self, limit=1):
+        return self.get_latest_sensor_value(878, limit)
 
-    @property
-    def ambient_air_quality(self):
-        return self.get_latest_sensor_value(879)
+    def ambient_air_quality(self, limit=1):
+        return self.get_latest_sensor_value(879, limit)
 
-    @property
-    def temperature(self):
-        return self.get_latest_sensor_value(880)
+    def temperature(self, limit=1):
+        return self.get_latest_sensor_value(880, limit)
 
-    @property
-    def blood_sugar(self):
-        return self.get_latest_sensor_value(881)
+    def blood_sugar(self, limit=1):
+        return self.get_latest_sensor_value(881, limit)
 
-    @property
-    def panic(self):
-        return self.get_latest_sensor_value(882)
+    def panic(self, limit=1):
+        return self.get_latest_sensor_value(882, limit)
 
     def __unicode__(self):
         return str(self.id)
