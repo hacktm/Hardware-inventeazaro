@@ -1,9 +1,20 @@
+//#include "Wire.h"
+//#include "LiquidCrystal.h"
 #include <SPI.h>
 #include <Ethernet.h>
 #include <dht11.h>
 dht11 DHT11;
+
+#define PanicButton 3
+#define PowerButton 4
+#define PowerLed    5
+#define StatusLed   6
+#define Buzzer      7
 #define DHT11PIN 8
 
+
+
+// ETH
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 
 char apiKey[] = "afb7baff-25c4-42cd-9795-56ccdfff4c35";
@@ -19,16 +30,120 @@ unsigned long lastConnectionTime = 0;             // last time you connected to 
 boolean lastConnected = false;
 const unsigned long postingInterval = 30L*1000L;  // delay between updates to devicehub.net
 
+// LCD
+//LiquidCrystal lcd(0);
+
+//Pir
+int inputPin = 2;               // choose the input pin for PIR
+int pirState = LOW;             // we start, assuming no motion
+int val = 0;                    // variable for reading the pin
+
+//  Pulse VARIABLES
+int pulsePin = A0;                 // Pulse Sensor purple wire connected to analog pin 0
+
+volatile int BPM;                   // used to hold the pulse rate
+volatile int Signal;                // holds the incoming raw data
+volatile int IBI = 600;             // holds the time between beats, must be seeded! 
+volatile boolean Pulse = false;     // true when pulse wave is high, false when it's low
+volatile boolean QS = false;        // becomes true when Arduoino finds a beat.
+
 
 void setup(){
- Serial.begin(9600);
- Ethernet.begin(mac);
- Serial.print("arduino is at ");
- Serial.println(Ethernet.localIP());
+  pinMode(inputPin, INPUT);     // declare sensor as input
+  
+  Ethernet.begin(mac);
+  
+  Serial.begin(9600);             
+  
+  Serial.print("arduino is at ");
+  Serial.println(Ethernet.localIP());
+  
+  //lcd.begin(16, 2);
+  //lcd.setBacklight(HIGH);
+  
+  interruptSetup();                 // sets up to read Pulse Sensor signal every 2mS 
 }
 
-void loop() {
 
+
+void loop(){
+  //sendDataToProcessing('S', Signal);     // send Processing the raw Pulse Sensor data
+  if (QS == true){                       // Quantified Self flag is true when arduino finds a heartbeat
+   //     fadeRate = 255;                  // Set 'fadeRate' Variable to 255 to fade LED with pulse
+        //sendDataToProcessing('B',BPM);   // send heart rate with a 'B' prefix
+   //     sendDataToProcessing('Q',IBI);   // send time between beats with a 'Q' prefix
+        QS = false;                      // reset the Quantified Self flag for next time    
+     }
+    
+  //delay(20);  
+
+  //pir(); 
+  //alcool(); 
+  //tempOm(); 
+  ethConnection();
+  
+}
+
+void sendDataToProcessing(char symbol, int data ){
+    Serial.print(symbol);                // symbol prefix tells Processing what type of data is coming
+    Serial.println(data);                // the data to send culminating in a carriage return
+  }
+
+
+
+void pir(){
+  val = digitalRead(inputPin);  // read input value
+  if (val == HIGH) {            // check if the input is HIGH
+    if (pirState == LOW) {
+      // we have just turned on
+      //Serial.println("Motion detected!");
+      // We only want to print on the output change, not state
+      pirState = HIGH;
+    }
+  } else {
+    if (pirState == HIGH){
+      // we have just turned of
+      //Serial.println("Motion ended!");
+      // We only want to print on the output change, not state
+      pirState = LOW;
+    }
+  }
+}
+
+
+void alcool(){
+  int valoareAlcool = analogRead(2);
+  //Serial.print("Nivel alcool: ");
+  //Serial.println(valoareAlcool, DEC); 
+  delay(100);
+}
+
+
+void tempOm(){
+  //Serial.print("Temperatura: ");
+  float temperatura = readTempInCelsius(10,0);
+  //Serial.print(temperatura);
+  //Serial.print("  ");
+  //Serial.write(176);
+  //Serial.println("C");
+  delay(200);
+}
+
+float readTempInCelsius(int count, int pin) {
+  float temperaturaMediata = 0;
+  float sumaTemperatura;
+  for (int i =0; i < count; i++) {
+    int reading = analogRead(pin);
+    float voltage = reading * 5.0;
+    voltage /= 1024.0;
+    float temperatureCelsius = (voltage - 0.5) * 100 ;
+    sumaTemperatura = sumaTemperatura + temperatureCelsius;
+  }
+  return sumaTemperatura / (float)count;
+}
+
+void ethConnection(){
+  
  if (apiClient.available()) {
     char c = apiClient.read();
     Serial.print(c);

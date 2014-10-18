@@ -4,12 +4,13 @@ void setup(){
 
 void loop(){
   Serial.print("Temperatura: ");
-  float temperatura = readTempInCelsius(10,0);
-  Serial.print(temperatura);
-  Serial.print("  ");
-  Serial.write(176);
-  Serial.println("C");
-  delay(200);
+  Serial.println(analogRead(A1));
+//  float temperatura = readTempInCelsius(10,1);
+//  Serial.print(temperatura);
+//  Serial.print("  ");
+//  Serial.write(176);
+//  Serial.println("C");
+//  delay(200);
 }
 
 float readTempInCelsius(int count, int pin) {
