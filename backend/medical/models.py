@@ -106,7 +106,7 @@ class DeviceHubProject(models.Model):
         if len(content) == 1:
             return content[0]['value']
         else:
-            return [x['value'] for x in content]
+            return [{'timestamp': x['timestamp'], 'value': x['value']} for x in content]
 
     def pulse(self, limit=1):
         return self.get_latest_sensor_value(876, limit)
