@@ -116,7 +116,14 @@ a {
   background-color: #FFF;
 
 }
+.panel-info{
+  border-color: #034a21;
 
+}
+.panel-info>.panel-heading{
+background-image: linear-gradient(to bottom,#6aff65 0,#6aff65 100%)
+
+}
 .navbar-inverse {
   background-color: #71f57a;
   background-image: -o-linear-gradient(top,#71f57a 0,##71f57a 100%);
@@ -127,9 +134,7 @@ a {
   margin-top:100px;
   background-color:#FFF;
   color:#000;
-  -webkit-box-shadow: 0px 0px 14px 0px rgb(10, 152, 2);
-  -moz-box-shadow:    0px 0px 14px 0px rgb(10, 152, 2);
-  box-shadow:         0px 0px 14px 0px rgb(10, 152, 2);
+
 
 }
 
