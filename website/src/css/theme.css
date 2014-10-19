@@ -124,10 +124,32 @@ background-image: linear-gradient(to bottom,#6aff65 0,#6aff65 100%)
 
 }
 .navbar-inverse {
-  background-color: #71f57a;
-  background-image: -o-linear-gradient(top,#71f57a 0,##71f57a 100%);
-  background-image: -webkit-gradient(linear,left top,left bottom,from(#71f57a),to(##71f57a));
-  background-image: linear-gradient(to bottom,#71f57a 0,#71f57a 100%);
+  background-color: #e8e8e8;
+  background-image: -o-linear-gradient(top,#e8e8e8 0,#e8e8e8 100%);
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#e8e8e8),to(#e8e8e8));
+  background-image: linear-gradient(to bottom,#e8e8e8 0,#e8e8e8 100%);
+}
+.navbar-inverse .navbar-nav>li>a{
+
+  color: #000;
+}
+.navbar-inverse .navbar-nav>li>a:hover{
+  color: #FFF;
+  background-color: #299c00;
+
+}
+.navbar-inverse .navbar-nav>.active>a:hover{
+  color: #FFF !important;
+
+}
+.active{
+  background-color: transparent;
+
+}
+.navbar-inverse .navbar-nav>.active>a{
+  background-color: #299c00 !important;
+  color: #FFF !important ;
+
 }
 .theme-showcase {
   margin-top:100px;
