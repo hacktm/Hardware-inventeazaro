@@ -1,9 +1,11 @@
 ---
-title: Login
+title: Dashboard
 ---
+
+
   <div id="page-wrapper" ng-class="{'active': toggle}" ng-cloak>
 
-    <!-- Sidebar -->
+    <!-- Sidebar -
 
     <div id="sidebar-wrapper">
       <ul class="sidebar">
@@ -13,39 +15,24 @@ title: Login
         </li>
         <li class="sidebar-title"><span>NAVIGATION</span></li>
         <li class="sidebar-list">
-          <a href="#">Dashboard <span class="menu-icon fa fa-tachometer"></span></a>
+          <a href="#">Dashboard <span class="menu-icon glyphicon glyphicon-edit"> </span></a>
         </li>
         <li class="sidebar-list">
-          <a href="#">Servers <span class="menu-icon fa fa-tasks"></span></a>
+          <a href="#">Servers <span class="menu-icon glyphicon glyphicon-edit"> </span></a>
         </li>
         <li class="sidebar-list">
-          <a href="#">Settings <span class="menu-icon fa fa-cogs"></span></a>
+          <a href="#">Settings <span class="menu-icon glyphicon glyphicon-edit"> </span></a>
         </li>
         <li class="sidebar-title separator"><span>QUICK LINKS</span></li>
         <li class="sidebar-list">
-          <a href="#" target="_blank">Forums <span class="menu-icon fa fa-external-link"></span></a>
+          <a href="#" target="_blank">Forums <span class="menu-icon glyphicon glyphicon-edit"> </span></a>
         </li>
       </ul>
-      <div class="sidebar-footer">
-        <div class="col-xs-4">
-          <a href="https://github.com/Ehesp/Responsive-Dashboard" target="_blank">
-            Github
-          </a>
-        </div>
-        <div class="col-xs-4">
-          <a href="#" target="_blank">
-            About
-          </a>
-        </div>
-        <div class="col-xs-4">
-          <a href="#">
-            Support
-          </a>
-        </div>
+
       </div>
     </div>
 
-    <!-- End Sidebar -->
+     End Sidebar -->
 
     <div id="content-wrapper">
       <div class="page-content">
@@ -58,9 +45,7 @@ title: Login
               <div class="page">
                 Dashboard
               </div>
-              <div class="breadcrumb-links">
-                Home / Dashboard
-              </div>
+
             </div>
             <div class="user pull-right">
               <div class="item dropdown">
@@ -97,7 +82,7 @@ title: Login
               </div>
               <div class="item dropdown">
                <a href="#" class="dropdown-toggle">
-                  <i class="fa fa-bell-o"></i>
+                  <i class="glyphicon glyphicon-edit"> </i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
                   <li class="dropdown-header">
@@ -126,26 +111,12 @@ title: Login
             <div class="col-lg-3 col-md-6 col-xs-12">
               <div class="widget">
                 <div class="widget-body">
-                  <div class="widget-icon green pull-left">
-                    <i class="fa fa-users"></i>
-                  </div>
-                  <div class="widget-content pull-left">
-                    <div class="title">80</div>
-                    <div class="comment">Users</div>
-                  </div>
-                  <div class="clearfix"></div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-xs-12">
-              <div class="widget">
-                <div class="widget-body">
                   <div class="widget-icon red pull-left">
-                    <i class="fa fa-tasks"></i>
+                    <i class="glyphicon glyphicon-heart"></i>
                   </div>
                   <div class="widget-content pull-left">
-                    <div class="title">16</div>
-                    <div class="comment">Servers</div>
+                    <div name="pulse" class="title">...</div>
+                    <div class="comment">Pulse</div>
                   </div>
                   <div class="clearfix"></div>
                 </div>
@@ -155,11 +126,25 @@ title: Login
               <div class="widget">
                 <div class="widget-body">
                   <div class="widget-icon orange pull-left">
-                    <i class="fa fa-sitemap"></i>
+                    <i class="glyphicon glyphicon-cloud"></i>
                   </div>
                   <div class="widget-content pull-left">
-                    <div class="title">225</div>
-                    <div class="comment">Documents</div>
+                    <div  name="temperature" class="title">...</div>
+                    <div class="comment">Temperature</div>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-xs-12">
+              <div class="widget">
+                <div class="widget-body">
+                  <div class="widget-icon blue pull-left">
+                    <i class="glyphicon glyphicon-tint"></i>
+                  </div>
+                  <div class="widget-content pull-left">
+                    <div name="ambient_humidity"class="title">...</div>
+                    <div class="comment">Ambient Humidity</div>
                   </div>
                   <div class="clearfix"></div>
                 </div>
@@ -169,76 +154,22 @@ title: Login
             <div class="col-lg-3 col-md-6 col-xs-12">
               <div class="widget">
                 <div class="widget-body">
-                  <div class="widget-icon blue pull-left">
-                    <i class="fa fa-support"></i>
+                  <div class="widget-icon green pull-left">
+                    <i class="glyphicon glyphicon-record"></i>
                   </div>
                   <div class="widget-content pull-left">
-                    <div class="title">62</div>
-                    <div class="comment">Tickets</div>
+                    <div name="ambient_air_quality" class="title">...</div>
+                    <div class="comment">Air Quality</div>
                   </div>
+                </div>              </div>
                   <div class="clearfix"></div>
-                </div>
-              </div>
             </div>
           </div>
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
               <div class="widget">
                 <div class="widget-title">
-                  <i class="fa fa-tasks"></i> Servers
-                  <a href="#" class="pull-right">Manage</a>
-                </div>
-                <div class="widget-body medium no-padding">
-                  <div class="table-responsive">
-                    <table class="table">
-                      <tbody>
-                        <tr><td>RDVMPC001</td><td>238.103.133.37</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                        <tr><td>RDVMPC002</td><td>68.66.63.170</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                        <tr><td>RDVMPC003</td><td>76.117.212.33</td><td><span tooltip="Server Down!" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-                        <tr><td>RDPHPC001</td><td>91.88.224.5</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                        <tr><td>RDESX001</td><td>197.188.15.93</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                        <tr><td>RDESX002</td><td>168.85.154.251</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                        <tr><td>RDESX003</td><td>209.25.191.61</td><td><span tooltip="Server Down!" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-                        <tr><td>RDESX004</td><td>252.37.192.235</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                        <tr><td>RDTerminal01</td><td>139.71.18.207</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                        <tr><td>RDTerminal02</td><td>136.80.122.212</td><td><span tooltip="Could not connect!" class="text-warning"><i class="fa fa-flash"></i></span></td></tr>
-                        <tr><td>RDDomainCont01</td><td>196.80.245.33</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="widget">
-                <div class="widget-title">
-                  <i class="fa fa-users"></i> Users
-                  <input type="text" placeholder="Search" class="form-control input-sm pull-right" />
-                  <div class="clearfix"></div>
-                </div>
-                <div class="widget-body medium no-padding">
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr><th class="text-center">ID</th><th>Username</th><th>Role</th><th>Account</th></tr>
-                      </thead>
-                      <tbody>
-                        <tr><td class="text-center">1</td><td>Joe Bloggs</td><td>Super Admin</td><td>AZ23045</td></tr>
-                        <tr><td class="text-center">2</td><td>Timothy Hernandez</td><td>Admin</td><td>AU24783</td></tr>
-                        <tr><td class="text-center">3</td><td>Joe Bickham</td><td>User</td><td>AM23781</td></tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-6">
-              <div class="widget">
-                <div class="widget-title">
-                  <i class="fa fa-plus"></i> Extras
-                  <button class="btn btn-sm btn-info pull-right">Button</button>
+                  <i class="glyphicon glyphicon-edit"> </i> Pulse History
                   <div class="clearfix"></div>
                 </div>
                 <div class="widget-body">
@@ -249,42 +180,49 @@ title: Login
 
                   <hr />
 
-                  <div class="message">
-                    <a href="http://angular-ui.github.io/bootstrap/" target="_blank">UI Bootstrap</a> is included, so you can use <a href="#" tooltip="I'm a tooltip!">tooltips</a> and all of the other native Bootstrap JS components!
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="widget">
+                <div class="widget-title">
+                  <i class="glyphicon glyphicon-floppy-disk"> </i>History Diagnostics
+                  <a href="#" class="btn btn-sm btn-success pull-right" data-toggle="modal" data-target="#modal">Ma doare</a>
+                </div>
+                <div class="widget-body medium no-padding">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <tbody>
+                        <tr><td>Ampedicinta</td><td>3 days ago</td></tr>
+                      </tbody>
+                    </table>
                   </div>
-
-                  <hr />
-
-                  <form class="form-horizontal" role="form">
-                    <div class="form-group has-feedback has-success">
-                      <label for="label" class="col-sm-2 control-label">Inline Form</label>
-                      <div class="col-sm-5">
-                        <input  type="text" class="form-control" />
-                          <span class="fa fa-key form-control-feedback"></span>
-                      </div>
-                      <div class="col-sm-5">
-                        <div class="input-mask">I'm an input mask!</div>
-                      </div>
-                      <div class="row">
-                        <div class="col-sm-offset-2 col-sm-10">
-                          <span class="help-block form-group-inline-message">I'm a properly padded inline message!</span>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-
                 </div>
               </div>
             </div>
             <div class="col-lg-6">
               <div class="widget">
                 <div class="widget-title">
-                  <i class="fa fa-cog fa-spin"></i> Loading Directive
-                  <a href="http://tobiasahlin.com/spinkit/" target="_blank" class="pull-right">SpinKit</a>
+                  <i class="glyphicon glyphicon-thumbs-up"> </i> Sugestions
+                  <input type="text" placeholder="Search" class="form-control input-sm pull-right" />
+                  <div class="clearfix"></div>
                 </div>
-                <div class="widget-body">
-                  <!-- Check out the Angular Directive inside bootstrap.js! -->
-                  <loading></loading>
+                <div class="widget-body medium no-padding">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr><th class="text-center">ID</th><th>Sugestion</th></tr>
+                      </thead>
+                      <tbody>
+                        <tr><td class="text-center">1</td><td>Fa sport  !</td></tr>
+
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
@@ -295,3 +233,92 @@ title: Login
       </div><!-- End Page Content -->
     </div><!-- End Content Wrapper -->
   </div><!-- End Page Wrapper -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Question</h4>
+      </div>
+      <div class="modal-body">
+      <h3>Troubleshoot</h3>
+      <select class="form-control">
+        <optgroup label="Parts">
+          <option value="arm"> </option>
+          <option value="eye"> </option>
+          <option value="eyebrow"> </option>
+          <option value="belly"> </option>
+          <option value="leg"> </option>
+          <option value="breast"> </option>
+          <option value="thumb"> </option>
+          <option value="elbow"> </option>
+          <option value="fist"> </option>
+          <option value="finger"> </option>
+          <option value="foot "> </option>
+          <option value="ankle"> </option>
+          <option value="buttocks"> </option>
+          <option value="hair"> </option>
+          <option value="neck"> </option>
+          <option value="hand"> </option>
+          <option value="wrist"> </option>
+          <option value="hip"> </option>
+          <option value="chin"> </option>
+          <option value="knee"> </option>
+          <option value="head"> </option>
+          <option value="lip"> </option>
+          <option value="mouth"> </option>
+          <option value="nose"> </option>
+          <option value="nostril"> </option>
+          <option value="upper am"> </option>
+          <option value="thigh"> </option>
+          <option value="ear"> </option>
+          <option value="bottom"> </option>
+          <option value="back"> </option>
+          <option value="underarm"> </option>
+          <option value="lower leg"> </option>
+          <option value="shoulder"> </option>
+          <option value="forehead"> </option>
+          <option value="waist"> </option>
+          <option value="calf"> </option>
+          <option value="cheek"> </option>
+          <option value="eyelash"> </option>
+          <option value="tooth"> </option>
+          <option value="toe"> </option>
+
+        </optgroup>
+      </select>
+     <br />
+     <label class="checkbox-inline">
+          <input type="checkbox" value="">You are coughing up a lot of blood
+     </label>
+    <br />
+    <label class="checkbox-inline">
+         <input type="checkbox" value="">You have chest pain
+    </label>
+    <br />
+   <label class="checkbox-inline">
+        <input type="checkbox" value="">You are short of breath (you can't get enough air)
+   </label>
+   <p>How you feel ?</p>
+   <ul class="rank">
+                <li><label><input id="triage_responses_how_sick_you_feel_answers__sick_0" name="triage[responses][how_sick_you_feel][answers][]" type="radio" value="sick_0" /><span>I am not sick or I am in no pain</span></label></li>
+                <li><label><input id="triage_responses_how_sick_you_feel_answers__sick_1" name="triage[responses][how_sick_you_feel][answers][]" type="radio" value="sick_1" /><span>I feel a little bit sick or I have a little bit of pain</span></label></li>
+                <li><label><input id="triage_responses_how_sick_you_feel_answers__sick_2" name="triage[responses][how_sick_you_feel][answers][]" type="radio" value="sick_2" /><span>I feel a little sick or I am in little pain</span></label></li>
+                <li><label><input id="triage_responses_how_sick_you_feel_answers__sick_3" name="triage[responses][how_sick_you_feel][answers][]" type="radio" value="sick_3" /><span>I feel somewhat sick or I am in somewhat pain, but I am ok</span></label></li>
+                <li><label><input id="triage_responses_how_sick_you_feel_answers__sick_4" name="triage[responses][how_sick_you_feel][answers][]" type="radio" value="sick_4" /><span>I feel sick or I have pain, but I can still ignore it</span></label></li>
+                <li><label><input id="triage_responses_how_sick_you_feel_answers__sick_5" name="triage[responses][how_sick_you_feel][answers][]" type="radio" value="sick_5" /><span>I feel sick or I have pain and I can&#39;t ignore it anymore</span></label></li>
+                <li><label><input id="triage_responses_how_sick_you_feel_answers__sick_6" name="triage[responses][how_sick_you_feel][answers][]" type="radio" value="sick_6" /><span>I feel so sick or I am in so much pain that I would stay home</span></label></li>
+                <li><label><input id="triage_responses_how_sick_you_feel_answers__sick_7" name="triage[responses][how_sick_you_feel][answers][]" type="radio" value="sick_7" /><span>I feel very sick or I am in much pain. Sleeping and concentrating are difficult.</span></label></li>
+                <li><label><input id="triage_responses_how_sick_you_feel_answers__sick_8" name="triage[responses][how_sick_you_feel][answers][]" type="radio" value="sick_8" /><span>I am really sick or I am in very much pain. Moving and talking are difficult.</span><em class="alert next"><strong>You indicated that you are very sick. Call the doctor, or change the answer if you are not quite this sick.</strong> <a class="alert next">I understand, next step</a>.</em></label></li>
+                <li><label><input id="triage_responses_how_sick_you_feel_answers__sick_9" name="triage[responses][how_sick_you_feel][answers][]" type="radio" value="sick_9" /><span>I feel severely sick or I moan because of the pain</span><em class="alert next"><strong>You indicated that you are very sick. Call the doctor, or change the answer if you are not quite this sick.</strong> <a class="alert next">I understand, next step</a>.</em></label></li>
+                <li><label><input id="triage_responses_how_sick_you_feel_answers__sick_10" name="triage[responses][how_sick_you_feel][answers][]" type="radio" value="sick_10" /><span>10</span><span>I feel extremely sick or I am in an extreme amount of pain. An emergency!</span><em class="alert next"><strong>You indicated that you are very sick. Call the doctor, or change the answer if you are not quite this sick.</strong> <a class="alert next">I understand, next step</a>.</em></label></li>
+</ul>
+   <br />
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Diagnostice</button>
+      </div>
+    </div>
+  </div>
+</div>

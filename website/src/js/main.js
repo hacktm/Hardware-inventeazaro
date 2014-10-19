@@ -8,7 +8,39 @@ var Config = new Object(
 
 
 )
+function DashboardController()
+{
+$.ajax(
+  {
+    type: 'GET',
+    url: Config.apiUrl + '/data-latest'
+  }
+)
+.fail(function(response){
 
+  if(response.statusText=='UNAUTHORIZED'){
+    window.location = 'login.html';
+  console.log(response);
+  }
+})
+.done(function(response){
+
+    for(key in response){
+      val = response[key];
+      $('[name="'+ key +'"]').html(val.value);
+
+    }
+   for(var i = 0; i < $('option').length;i++)
+     {
+        var opt = $('option')[i];
+        opt.text = opt.value;
+
+     }
+
+
+});
+
+}
 function LoginController()
 {
 $('input[name="submit"]').click(function (e) {
@@ -88,8 +120,8 @@ function ProfileController()
 
   });
 }
-(function ($){
 $.fn.editable.defaults.mode = 'inline';
+(function ($){
 
   var page =  window.location.pathname.replace('/Hardware-inventeazaro/', '').replace('/', '').replace('.html', '');
   if(page == '')
@@ -99,7 +131,8 @@ $.fn.editable.defaults.mode = 'inline';
     $.ajaxSetup({
     beforeSend: function (request)      {
       request.setRequestHeader("Authorization", 'Token ' + sessionStorage.token || "None");
-  })
+  }
+  });
   }
 
   page = page.charAt(0).toUpperCase() + page.slice(1);
