@@ -7,8 +7,9 @@
 * hardware
 
 ## To Do :
+* Machine learning
+* Adding more sensors
 * Documentation
-* Plugins - Plugins extend the core functionality of Assemble.
 
 
 ## Contributing

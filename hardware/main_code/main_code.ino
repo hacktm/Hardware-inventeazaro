@@ -4,9 +4,29 @@
 #include "Wire.h"
 #include "LiquidCrystal.h"
 
+// Example testing sketch for various DHT humidity/temperature sensors
+// Written by ladyada, public domain
+
+
+#define DHTPIN 8     // what pin we're connected to
+
+// Uncomment whatever type you're using!
+#define DHTTYPE DHT11   // DHT 11 
+//#define DHTTYPE DHT22   // DHT 22  (AM2302)
+//#define DHTTYPE DHT21   // DHT 21 (AM2301)
+
+// Connect pin 1 (on the left) of the sensor to +5V
+// NOTE: If using a board with 3.3V logic like an Arduino Due connect pin 1
+// to 3.3V instead of 5V!
+// Connect pin 2 of the sensor to whatever your DHTPIN is
+// Connect pin 4 (on the right) of the sensor to GROUND
+// Connect a 10K resistor from pin 2 (data) to pin 1 (power) of the sensor
+
 //DHT11 - temperature & humidity ambient
-dht11 DHT11;
-#define DHT11PIN 8
+
+
+DHT dht(DHTPIN, DHTTYPE);
+
 #define temp_amb    "Temp_amb"
 #define humidity_amb    "Humidity_amb"
 #define pulse_user    "Pulse"
@@ -50,7 +70,7 @@ void setup(){
   //LCD
   lcd.begin(16, 2);
   lcd.setBacklight(HIGH);
-  lcd.print("Home Care Hub");
+  lcd.print("  HomeCare HUB");
   lcd.setCursor(0, 1);
   lcd.print("IP: ");
   lcd.print(Ethernet.localIP());
@@ -58,10 +78,12 @@ void setup(){
   pinMode(blinkPin,OUTPUT);         // pin that will blink to your heartbeat!
   pinMode(fadePin,OUTPUT);          // pin that will fade to your heartbeat!
   Serial.begin(115200);             // we agree to talk fast!
-  //interruptSetup();                 // sets up to read Pulse Sensor signal every 2mS 
+  interruptSetup();                 // sets up to read Pulse Sensor signal every 2mS 
   // UN-COMMENT THE NEXT LINE IF YOU ARE POWERING The Pulse Sensor AT LOW VOLTAGE, 
   // AND APPLY THAT VOLTAGE TO THE A-REF PIN
-  //analogReference(EXTERNAL); 
+  //analogReference(EXTERNAL);
+ 
+  dht.begin();
 }
 
 void loop() {
@@ -75,7 +97,7 @@ void loop() {
   // through the loop, then stop the client:
   if (!apiClient.connected() && lastConnected) {
     lcd.setCursor(0, 1);
-    lcd.print("upload done     ");
+    lcd.print("   upload done   ");
     apiClient.stop();
   }
 
@@ -92,33 +114,54 @@ void loop() {
   // the loop:
   lastConnected = apiClient.connected();
   
-
-  //sendDataToProcessing('S', Signal);     // send Processing the raw Pulse Sensor data
+  
+  sendDataToProcessing('S', Signal);     // send Processing the raw Pulse Sensor data
   if (QS == true){                       // Quantified Self flag is true when arduino finds a heartbeat
    fadeRate = 255;                  // Set 'fadeRate' Variable to 255 to fade LED with pulse
    sendDataToProcessing('B',BPM);   // send heart rate with a 'B' prefix
+    lcd.setCursor(0, 1);
    last_bpm = BPM;
-   Serial.println(BPM);
+    lcd.print("Pulse (BPM): ");
+    lcd.print(BPM);
+    lcd.print(" ");
    //sendDataToProcessing('Q',IBI);   // send time between beats with a 'Q' prefix
    QS = false;                      // reset the Quantified Self flag for next time    
   }
   ledFadeToBeat();
+  
 }
 
 // this method makes a HTTP connection to the devicehub server:
 void sendData() {
-
-  
-   int chk = DHT11.read(DHT11PIN);
-    
-    
-   float sensor1 = (int)DHT11.temperature;
-   float sensor2 = (int)DHT11.humidity;
+   //int chk = DHT11.read(DHT11PIN);
+   float sensor1 = dht.readTemperature();
+   float sensor2 = dht.readHumidity();
    float sensor3 = last_bpm;
    float sensor4 = analogRead(A2); //alcool
    float sensor5 = sugar_level;
    float sensor6 = temp_body;
    float sensor7 = panic_btn;
+   
+
+
+  // Reading temperature or humidity takes about 250 milliseconds!
+  // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
+  float h = dht.readHumidity();
+  // Read temperature as Celsius
+  float t = dht.readTemperature();  
+   
+  // Read temperature as Fahrenheit
+  float f = dht.readTemperature(true);
+  
+  // Check if any reads failed and exit early (to try again).
+  if (isnan(h) || isnan(t) || isnan(f)) {
+    Serial.println("Failed to read from DHT sensor!");
+    return;
+  }
+
+  // Compute heat index
+  // Must send in temp in Fahrenheit!
+  float hi = dht.computeHeatIndex(f, h);
    
   //lcd.setCursor(0, 1);
   //lcd.print(sensor1);

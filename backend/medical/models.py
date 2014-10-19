@@ -4,10 +4,8 @@ from django.db.models.signals import post_save
 from rest_framework.authtoken.models import Token
 from django.conf import settings
 import httplib2
-from urllib import urlencode
 import json
-
-# Create your models here.
+from django_gravatar.helpers import get_gravatar_url
 
 
 SEX = (
@@ -90,12 +88,12 @@ class UserMedicalHistory(models.Model):
 
 class DeviceHubProject(models.Model):
     userprofile = models.OneToOneField(UserProfile)
-    id = models.IntegerField(max_length=10, primary_key=True)
-    api_key = models.CharField(max_length=64)
+    project_id = models.IntegerField(max_length=10, default=453)
+    api_key = models.CharField(max_length=64, default="afb7baff-25c4-42cd-9795-56ccdfff4c35")
 
     def get_latest_sensor_value(self, sensor_id, limit=1):
         get_url = settings.DEVICEHUB_API_BASE + \
-                    'project/' + str(self.id) + \
+                    'project/' + str(self.project_id) + \
                     '/sensor/' + str(sensor_id) + \
                     '/?limit=' + str(limit) + \
                     '&apiKey=' + self.api_key
@@ -103,10 +101,11 @@ class DeviceHubProject(models.Model):
         h = httplib2.Http()
         resp, content = h.request(get_url, "GET")
         content = json.loads(content)
+        content = [{'timestamp': x['timestamp'], 'value': x['value']} for x in content]
         if len(content) == 1:
-            return content[0]['value']
+            return content[0]
         else:
-            return [{'timestamp': x['timestamp'], 'value': x['value']} for x in content]
+            return content
 
     def pulse(self, limit=1):
         return self.get_latest_sensor_value(876, limit)
@@ -138,6 +137,7 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         profile = UserProfile()
         profile.user = instance
+        profile.gravatar_img = get_gravatar_url(profile.user.email)
         profile.save()
 
 post_save.connect(create_user_profile, sender=User)
