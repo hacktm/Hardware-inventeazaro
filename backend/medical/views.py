@@ -43,7 +43,7 @@ class UserMedicalHistory(APIView):
 @authentication_classes((TokenAuthentication, SessionAuthentication))
 @permission_classes((IsAuthenticated,))
 class UserDataHistory(APIView):
-    def get(self, request, format=None):
+    def get(self, request, item=None, format=None):
         user = request.user
         max_num_points = 1000
         try:
@@ -67,7 +67,10 @@ class UserDataHistory(APIView):
                 'ambient_air_quality': dh.ambient_air_quality(limit=max_num_points),
                 'panic': dh.panic(limit=max_num_points),
             }
-            return Response(data)
+            if item is not None:
+                return Response(data[item])
+            else:
+                return Response(data)
 
 
 @authentication_classes((TokenAuthentication, SessionAuthentication))
