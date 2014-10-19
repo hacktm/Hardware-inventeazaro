@@ -12,5 +12,5 @@ urlpatterns = patterns('',
     url(r'^profile$', UserProfile.as_view()),
     url(r'^medical-history', UserMedicalHistory.as_view()),
     url(r'^data-latest', UserLatestData.as_view()),
-    url(r'^data-history', UserDataHistory.as_view()),
+    url(r'^data-history?(?:/(?P<item>\w+))?$', UserDataHistory.as_view()),
 )
