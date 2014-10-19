@@ -1,6 +1,6 @@
 var Config = new Object(
   {
-    apiUrl  : 'http://medical.devicehub.net:8000',
+    apiUrl  : 'http://medical.devicehub.net',
     version : '0.0.1'
 
 
