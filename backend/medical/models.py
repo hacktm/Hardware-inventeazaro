@@ -88,8 +88,8 @@ class UserMedicalHistory(models.Model):
 
 class DeviceHubProject(models.Model):
     userprofile = models.OneToOneField(UserProfile)
-    id = models.IntegerField(max_length=10, primary_key=True)
-    api_key = models.CharField(max_length=64)
+    project_id = models.IntegerField(max_length=10, default=453)
+    api_key = models.CharField(max_length=64, default="afb7baff-25c4-42cd-9795-56ccdfff4c35")
 
     def get_latest_sensor_value(self, sensor_id, limit=1):
         get_url = settings.DEVICEHUB_API_BASE + \
