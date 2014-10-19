@@ -4,10 +4,8 @@ from django.db.models.signals import post_save
 from rest_framework.authtoken.models import Token
 from django.conf import settings
 import httplib2
-from urllib import urlencode
 import json
-
-# Create your models here.
+from django_gravatar.helpers import get_gravatar_url
 
 
 SEX = (
@@ -139,6 +137,7 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         profile = UserProfile()
         profile.user = instance
+        profile.gravatar_img = get_gravatar_url(user.email)
         profile.save()
 
 post_save.connect(create_user_profile, sender=User)
