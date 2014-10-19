@@ -97,11 +97,12 @@ function DashboardController() {
       console.log(response);
     } else {
       alert(response);
+
     }
   })
   .done(function(response){
       $.each( response, function( key, val ) {
-        console.log("suggestion", val);
+        $('.table tbody').append('<tr><td class="text-center">1</td><td>'+ response.suggestion + '</td></tr>')
       });
   });
 }
