@@ -1,13 +1,18 @@
 # HomeCare Hub
 
-> The best project ever..
+> Your in-home personal doctor
 
 * website - http://hacktm.github.io/Hardware-inventeazaro/
 * backend - http://medical.devicehub.net
 * hardware
 
+
+## Demo account:
+* username: cristiana
+* password: admin
+
+
 ## To Do :
-* Machine learning
 * Adding more sensors
 * Documentation
 
