@@ -107,10 +107,10 @@ module.exports = function(grunt) {
         src: '**',
         dest: '<%= config.dist %>/assets/'
       },
-      d3: {
+      highcharts: {
         expand: true,
-        cwd: 'bower_components/d3/',
-        src: 'd3.js',
+        cwd: 'bower_components/highcharts/',
+        src: '**',
         dest: '<%= config.dist %>/assets/js/'
       },
       theme: {
