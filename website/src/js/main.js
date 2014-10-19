@@ -72,13 +72,37 @@ function DashboardController() {
           renderTo: 'pulse-history'
        },
        rangeSelector: {
-          selected: 1
+          selected: 1,
+          enabled: false,
+       },
+       scrollbar: {
+         enabled: false,
        },
        series: [{
           name: 'Pulse',
           data: items // predefined JavaScript array
        }]
     });
+  });
+
+  $.ajax(
+    {
+      type: 'GET',
+      url: Config.apiUrl + '/data-learn'
+    }
+  )
+  .fail(function(response){
+    if(response.statusText=='UNAUTHORIZED') {
+      window.location = 'login.html';
+      console.log(response);
+    } else {
+      alert(response);
+    }
+  })
+  .done(function(response){
+      $.each( response, function( key, val ) {
+        console.log("suggestion", val);
+      });
   });
 }
 
