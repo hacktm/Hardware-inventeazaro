@@ -22,6 +22,7 @@ def load(dh):
 
 
 def getData(User):  
+  i
   rfc = RandomForestClassifier()
   dh = User.userprofile.devicehubproject
   imp = Imputer(missing_values=0, strategy='mean', axis=0)
@@ -35,15 +36,17 @@ def getData(User):
   #import pdb;pdb.set_trace(); 
   rfc.fit(X_train, Y_train)  
   #pulse = dh.pulse(limit=1000)
+  
   X_test  = pulse[-1].get('timestamp')
   Y_test  = pulse[-1].get('value')
-  d = rfc.predict([X_test])
-  msg = "Please rest!"
+  if X_test > 40:
+    d = rfc.predict([X_test])
+    msg = "Please rest!"
 
-  if abs( d - Y_test ) > 40:
-      msg = "You could do some sporty activities!"
+    if abs( d - Y_test ) > 40:
+        msg = "You could do some sporty activities!"
 
-  data = {
-      "suggestion": msg,
-  }
+    data = {
+        "suggestion": msg,
+    }
   return data

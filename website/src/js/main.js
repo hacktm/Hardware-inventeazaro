@@ -8,6 +8,9 @@ var Config = new Object(
 )
 
 function DashboardController() {
+  setInterval(function ()
+  {
+
   $.ajax(
     {
       type: 'GET',
@@ -50,6 +53,7 @@ function DashboardController() {
           opt.text = opt.value;
       }
   });
+  }, 1000);
 
   $.ajax(
     {
@@ -102,7 +106,7 @@ function DashboardController() {
   })
   .done(function(response){
       $.each( response, function( key, val ) {
-        $('.table tbody').append('<tr><td class="text-center">1</td><td>'+ response.suggestion + '</td></tr>')
+        $('.sg tbody').append('<tr><td class="text-center">1</td><td>'+ response.suggestion + '</td></tr>')
       });
   });
 }
