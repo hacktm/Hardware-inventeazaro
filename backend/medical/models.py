@@ -103,10 +103,11 @@ class DeviceHubProject(models.Model):
         h = httplib2.Http()
         resp, content = h.request(get_url, "GET")
         content = json.loads(content)
+        content = [{'timestamp': x['timestamp'], 'value': x['value']} for x in content]
         if len(content) == 1:
-            return content[0]['value']
+            return content[0]
         else:
-            return [{'timestamp': x['timestamp'], 'value': x['value']} for x in content]
+            return content
 
     def pulse(self, limit=1):
         return self.get_latest_sensor_value(876, limit)
