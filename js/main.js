@@ -5,44 +5,108 @@ var Config = new Object(
 
 
   }
-
-
 )
-function DashboardController()
-{
-$.ajax(
-  {
-    type: 'GET',
-    url: Config.apiUrl + '/data-latest'
-  }
-)
-.fail(function(response){
 
-  if(response.statusText=='UNAUTHORIZED'){
-    window.location = 'login.html';
-  console.log(response);
-  }
-})
-.done(function(response){
-
-    for(key in response){
-      val = response[key];
-      $('[name="'+ key +'"]').html(val.value);
-
+function DashboardController() {
+  $.ajax(
+    {
+      type: 'GET',
+      url: Config.apiUrl + '/profile'
     }
-   for(var i = 0; i < $('option').length;i++)
-     {
-        var opt = $('option')[i];
-        opt.text = opt.value;
+  )
+  .fail(function(response){
 
-     }
+    if(response.statusText=='UNAUTHORIZED'){
+      window.location = 'login.html';
+    console.log(response);
+    }
+  })
+  .done(function(response){
+      $("#gravatar").attr("src", response.userprofile.gravatar_img);
+  });
 
+  $.ajax(
+    {
+      type: 'GET',
+      url: Config.apiUrl + '/data-latest'
+    }
+  )
+  .fail(function(response){
 
-});
+    if(response.statusText=='UNAUTHORIZED'){
+      window.location = 'login.html';
+    console.log(response);
+    }
+  })
+  .done(function(response){
 
+      for(key in response) {
+        val = response[key];
+        $('[name="'+ key +'"]').html(val.value);
+
+      }
+      for(var i = 0; i < $('option').length;i++) {
+          var opt = $('option')[i];
+          opt.text = opt.value;
+      }
+  });
+
+  $.ajax(
+    {
+      type: 'GET',
+      url: Config.apiUrl + '/data-history/pulse'
+    }
+  )
+  .fail(function(response) {
+    console.error('fail at data-history');
+  })
+  .done(function(response){
+    var items = [];
+    $.each( response, function( key, val ) {
+      items.push([val.timestamp, val.value]);
+    });
+
+    var chart1; // globally available
+    chart1 = new Highcharts.StockChart({
+       chart: {
+          renderTo: 'pulse-history'
+       },
+       rangeSelector: {
+          selected: 1,
+          enabled: false,
+       },
+       scrollbar: {
+         enabled: false,
+       },
+       series: [{
+          name: 'Pulse',
+          data: items // predefined JavaScript array
+       }]
+    });
+  });
+
+  $.ajax(
+    {
+      type: 'GET',
+      url: Config.apiUrl + '/data-learn'
+    }
+  )
+  .fail(function(response){
+    if(response.statusText=='UNAUTHORIZED') {
+      window.location = 'login.html';
+      console.log(response);
+    } else {
+      alert(response);
+    }
+  })
+  .done(function(response){
+      $.each( response, function( key, val ) {
+        console.log("suggestion", val);
+      });
+  });
 }
-function LoginController()
-{
+
+function LoginController() {
 $('input[name="submit"]').click(function (e) {
     e.preventDefault();
     var self = this;
@@ -70,18 +134,16 @@ $('input[name="submit"]').click(function (e) {
         window.location = 'profile.html'
 
     });
-
-
-})
+  })
 }
-function IndexController()
-{
+
+function IndexController() {
   $('.navbar').removeClass('navbar-inverse');
 
 
 }
-function ProfileController()
-{
+
+function ProfileController() {
   $.ajax(
     {
       type: 'GET',
@@ -104,6 +166,9 @@ function ProfileController()
         $('[name="'+ key +'"]').html(val);
 
       }
+
+      $("#gravatar").attr("src", response.userprofile.gravatar_img);
+
       $('[name]').editable(
         {
           type: 'text',
@@ -120,7 +185,9 @@ function ProfileController()
 
   });
 }
+
 $.fn.editable.defaults.mode = 'inline';
+
 (function ($){
 
   var page =  window.location.pathname.replace('/Hardware-inventeazaro/', '').replace('/', '').replace('.html', '');

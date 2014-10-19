@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/green.css">
     <link rel="stylesheet" type="text/css" href="assets/css/dashboard.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/main.css">
     <!-- Bootstrap theme -->
 
     <!-- Custom styles for this template -->
@@ -129,7 +130,7 @@
             <div class="user pull-right">
               <div class="item dropdown">
                 <a href="#" class="dropdown-toggle">
-                  <img src="img/avatar.jpg">
+                  <img src="img/avatar.jpg" id="gravatar">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
                   <li class="dropdown-header">
@@ -253,12 +254,10 @@
                 </div>
                 <div class="widget-body">
 
-                  <div class="message">
-                    This is a standard message which will also work the ".no-padding" class, I can also <span class="error">be an error message!</span>
+                  <div class="message" id="pulse-history">
                   </div>
 
                   <hr />
-
 
                 </div>
               </div>
@@ -410,6 +409,7 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/bootstrap-editable.js"></script>
+    <script src="http://code.highcharts.com/stock/highstock.js"></script>
     <script src="js/main.js"></script>
     </body>
 </html>
