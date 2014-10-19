@@ -137,7 +137,7 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         profile = UserProfile()
         profile.user = instance
-        profile.gravatar_img = get_gravatar_url(user.email)
+        profile.gravatar_img = get_gravatar_url(profile.user.email)
         profile.save()
 
 post_save.connect(create_user_profile, sender=User)
