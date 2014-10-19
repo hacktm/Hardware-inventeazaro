@@ -1,16 +1,27 @@
 __author__ = 'cotty'
-from models import DeviceHubProject
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 
+from sklearn.externals import joblib
+from django.contrib.auth.models import User
 
-def ml_test():
-    learn_pulse = np.array([73, 80, 84, 87, 81, 74, 80, 87, 92, 90, 75, 90, 94, 87, 84])
+#not 1 = temp
+#not 2 = puls
+
+
+def learn(rfc,User):
+  dh = User.devicehubproject
+  pulse = dh.pulse(limit=1000)
+  import pdb;pdb.set_trace()
+def load(rfc,User):
+    try:
+      joblib.load('learn/learn-' + User.username + '.pkl');
+    except IOError:
+      learn(rfc,User)
+    return  rfc
+
+def getData(User):
     rfc = RandomForestClassifier()
-    rfc.fit_transform(np.array([learn_pulse, [1]]))
-    rfc.predict(np.array([75], [1]))
-    
-
-
-
-
+    rfc = load(rfc,User)
+    joblib.dump(rfc, 'learn/learn.pkl')  
+main()
