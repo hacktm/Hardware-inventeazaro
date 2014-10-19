@@ -102,8 +102,7 @@ function DashboardController() {
   })
   .done(function(response){
       $.each( response, function( key, val ) {
-        $('.table tbody').append('<tr><td class="text-center">1</td><td>'+ respnose + '</td></tr>')
-
+        $('.table tbody').append('<tr><td class="text-center">1</td><td>'+ response.suggestion + '</td></tr>')
       });
   });
 }
