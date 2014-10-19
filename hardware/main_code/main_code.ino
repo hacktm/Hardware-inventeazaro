@@ -50,7 +50,7 @@ void setup(){
   //LCD
   lcd.begin(16, 2);
   lcd.setBacklight(HIGH);
-  lcd.print("Home Care Hub");
+  lcd.print("  HomeCare HUB");
   lcd.setCursor(0, 1);
   lcd.print("IP: ");
   lcd.print(Ethernet.localIP());
@@ -58,10 +58,10 @@ void setup(){
   pinMode(blinkPin,OUTPUT);         // pin that will blink to your heartbeat!
   pinMode(fadePin,OUTPUT);          // pin that will fade to your heartbeat!
   Serial.begin(115200);             // we agree to talk fast!
-  //interruptSetup();                 // sets up to read Pulse Sensor signal every 2mS 
+  interruptSetup();                 // sets up to read Pulse Sensor signal every 2mS 
   // UN-COMMENT THE NEXT LINE IF YOU ARE POWERING The Pulse Sensor AT LOW VOLTAGE, 
   // AND APPLY THAT VOLTAGE TO THE A-REF PIN
-  //analogReference(EXTERNAL); 
+  //analogReference(EXTERNAL);
 }
 
 void loop() {
@@ -75,7 +75,7 @@ void loop() {
   // through the loop, then stop the client:
   if (!apiClient.connected() && lastConnected) {
     lcd.setCursor(0, 1);
-    lcd.print("upload done     ");
+    lcd.print("   upload done   ");
     apiClient.stop();
   }
 
@@ -92,26 +92,26 @@ void loop() {
   // the loop:
   lastConnected = apiClient.connected();
   
-
-  //sendDataToProcessing('S', Signal);     // send Processing the raw Pulse Sensor data
+  
+  sendDataToProcessing('S', Signal);     // send Processing the raw Pulse Sensor data
   if (QS == true){                       // Quantified Self flag is true when arduino finds a heartbeat
    fadeRate = 255;                  // Set 'fadeRate' Variable to 255 to fade LED with pulse
    sendDataToProcessing('B',BPM);   // send heart rate with a 'B' prefix
+    lcd.setCursor(0, 1);
    last_bpm = BPM;
-   Serial.println(BPM);
+    lcd.print("Pulse (BPM): ");
+    lcd.print(BPM);
+    lcd.print(" ");
    //sendDataToProcessing('Q',IBI);   // send time between beats with a 'Q' prefix
    QS = false;                      // reset the Quantified Self flag for next time    
   }
   ledFadeToBeat();
+  
 }
 
 // this method makes a HTTP connection to the devicehub server:
 void sendData() {
-
-  
    int chk = DHT11.read(DHT11PIN);
-    
-    
    float sensor1 = (int)DHT11.temperature;
    float sensor2 = (int)DHT11.humidity;
    float sensor3 = last_bpm;
