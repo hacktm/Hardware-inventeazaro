@@ -93,7 +93,7 @@ class DeviceHubProject(models.Model):
 
     def get_latest_sensor_value(self, sensor_id, limit=1):
         get_url = settings.DEVICEHUB_API_BASE + \
-                    'project/' + str(self.id) + \
+                    'project/' + str(self.project_id) + \
                     '/sensor/' + str(sensor_id) + \
                     '/?limit=' + str(limit) + \
                     '&apiKey=' + self.api_key
