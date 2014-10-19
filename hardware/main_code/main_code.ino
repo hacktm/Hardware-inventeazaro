@@ -1,14 +1,10 @@
 #include <SPI.h>
 #include <Ethernet.h>
-#include <dht11.h>
+#include <DHT.h>
 #include "Wire.h"
 #include "LiquidCrystal.h"
 
-// Example testing sketch for various DHT humidity/temperature sensors
-// Written by ladyada, public domain
-
-
-#define DHTPIN 8     // what pin we're connected to
+#define DHTPIN 8
 
 // Uncomment whatever type you're using!
 #define DHTTYPE DHT11   // DHT 11 
@@ -58,19 +54,30 @@ volatile int Signal;                // holds the incoming raw data
 volatile int IBI = 600;             // holds the time between beats, must be seeded! 
 volatile boolean Pulse = false;     // true when pulse wave is high, false when it's low
 volatile boolean QS = false;        // becomes true when Arduoino finds a beat.
-float last_bpm;
+float last_bpm = 70;
 float sugar_level = 80;
 float temp_body = 30;
 float panic_btn = 0;
 
+int panicpPin = 3;
+bool panicState = false;
+bool personState = false;
+
+
+int inputPin = 2;               // choose the input pin (for PIR sensor)
+int pirState = LOW;             // we start, assuming no motion detected
+int val = 0;                    // variable for reading the pin status
+
 void setup(){
-  Serial.begin(9600);
+  //Serial.begin(9600);
+  //BUzzer
+  pinMode(7, OUTPUT);
   //Ethernet
   Ethernet.begin(mac);
   //LCD
   lcd.begin(16, 2);
   lcd.setBacklight(HIGH);
-  lcd.print("  HomeCare HUB");
+  lcd.print("  HomeCare HUB  ");
   lcd.setCursor(0, 1);
   lcd.print("IP: ");
   lcd.print(Ethernet.localIP());
@@ -84,6 +91,8 @@ void setup(){
   //analogReference(EXTERNAL);
  
   dht.begin();
+  pinMode(3,INPUT_PULLUP);
+  pinMode(inputPin, INPUT);     // declare sensor as input
 }
 
 void loop() {
@@ -98,6 +107,9 @@ void loop() {
   if (!apiClient.connected() && lastConnected) {
     lcd.setCursor(0, 1);
     lcd.print("   upload done   ");
+    analogWrite(6, 130);
+    delay(500);
+    analogWrite(6, 0);
     apiClient.stop();
   }
 
@@ -120,15 +132,47 @@ void loop() {
    fadeRate = 255;                  // Set 'fadeRate' Variable to 255 to fade LED with pulse
    sendDataToProcessing('B',BPM);   // send heart rate with a 'B' prefix
     lcd.setCursor(0, 1);
-   last_bpm = BPM;
     lcd.print("Pulse (BPM): ");
-    lcd.print(BPM);
-    lcd.print(" ");
+    if(BPM <=150 && BPM>=50){ 
+      last_bpm = BPM;
+      lcd.print(BPM);
+      lcd.print(" ");
+    }else{
+      lcd.print("---");
+    }
    //sendDataToProcessing('Q',IBI);   // send time between beats with a 'Q' prefix
    QS = false;                      // reset the Quantified Self flag for next time    
   }
   ledFadeToBeat();
-  
+  if(!digitalRead(3)){
+    //Panic
+    analogWrite(6, 250);
+    analogWrite(6, 0);
+    lcd.setCursor(0, 1);
+    lcd.print("Calling Clinic    ");
+    delay(1000);
+    panic_btn = 1;
+  }
+  val = digitalRead(inputPin);  // read input value
+  if (val == HIGH) {            // check if the input is HIGH
+    if (pirState == LOW) {
+      // we have just turned on
+      lcd.setCursor(0, 1);
+      lcd.print("Person detected!");
+      delay(200);
+      // We only want to print on the output change, not state
+      pirState = HIGH;
+    }
+  } else {
+    if (pirState == HIGH){
+      // we have just turned of
+      //lcd.setCursor(0, 1);
+      //lcd.print("Person not here!");
+      delay(200);
+      // We only want to print on the output change, not state
+      pirState = LOW;
+    }
+  }
 }
 
 // this method makes a HTTP connection to the devicehub server:
@@ -141,9 +185,10 @@ void sendData() {
    float sensor5 = sugar_level;
    float sensor6 = temp_body;
    float sensor7 = panic_btn;
+   if(panic_btn == 1){
+    panic_btn = 0;
+   }
    
-
-
   // Reading temperature or humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
   float h = dht.readHumidity();
