@@ -2,17 +2,16 @@ __author__ = 'cotty'
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 
-from sklearn.externals import joblib
-from django.contrib.auth.models import User
 from sklearn.preprocessing import Imputer
 from sklearn.preprocessing import Normalizer
-from rest_framework.response import Response
 #not 1 = temp
 #not 2 = puls
+
 
 def learn(dh):
    
   return rfc 
+
 
 def load(dh):
   #try:
@@ -39,9 +38,11 @@ def getData(User):
   X_test  = pulse[-1].get('timestamp')
   Y_test  = pulse[-1].get('value')
   d = rfc.predict([X_test])
-  msg = "Odihnestete"
+  msg = "Please rest!"
+
   if abs( d - Y_test ) > 40:
-      msg = "Ai putea face activitati sportive"
+      msg = "You could do some sporty activities!"
+
   data = {
       "suggestion": msg,
   }
