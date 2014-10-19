@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import authentication_classes, permission_classes
 from models import DeviceHubProject
 from devicehub import getData
+from rest_framework import status
 
 
 class NoHardwareEndpoint(Exception):
@@ -26,7 +27,11 @@ class UserProfile(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        return Response("not implemented yet", status=404)
+        serializer = UserProfileSerializer(data=request.DATA)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
 
 
 @authentication_classes((TokenAuthentication, SessionAuthentication))
@@ -38,7 +43,11 @@ class UserMedicalHistory(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        return Response("not implemented yet", status=404)
+        serializer = UserMedicalHistorySerializer(data=request.DATA)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @authentication_classes((TokenAuthentication, SessionAuthentication))
