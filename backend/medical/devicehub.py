@@ -22,7 +22,6 @@ def load(dh):
 
 
 def getData(User):  
-  i
   rfc = RandomForestClassifier()
   dh = User.userprofile.devicehubproject
   imp = Imputer(missing_values=0, strategy='mean', axis=0)
