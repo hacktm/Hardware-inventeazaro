@@ -97,11 +97,13 @@ function DashboardController() {
       console.log(response);
     } else {
       alert(response);
+      $('.table tbody').append('<tr><td class="text-center">1</td><td>'+ repsose + '</td></tr>')
+
     }
   })
   .done(function(response){
       $.each( response, function( key, val ) {
-        console.log("suggestion", val);
+        :
       });
   });
 }
