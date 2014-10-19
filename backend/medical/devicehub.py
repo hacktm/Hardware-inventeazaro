@@ -45,4 +45,4 @@ def getData(User):
   data = {
       "suggestion": msg,
   }
-  return Response(data)
+  return data
