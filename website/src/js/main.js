@@ -11,6 +11,23 @@ function DashboardController() {
   $.ajax(
     {
       type: 'GET',
+      url: Config.apiUrl + '/profile'
+    }
+  )
+  .fail(function(response){
+
+    if(response.statusText=='UNAUTHORIZED'){
+      window.location = 'login.html';
+    console.log(response);
+    }
+  })
+  .done(function(response){
+      $("#gravatar").attr("src", response.userprofile.gravatar_img);
+  });
+
+  $.ajax(
+    {
+      type: 'GET',
       url: Config.apiUrl + '/data-latest'
     }
   )
@@ -125,6 +142,9 @@ function ProfileController() {
         $('[name="'+ key +'"]').html(val);
 
       }
+
+      $("#gravatar").attr("src", response.userprofile.gravatar_img);
+
       $('[name]').editable(
         {
           type: 'text',
