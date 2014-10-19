@@ -107,6 +107,12 @@ module.exports = function(grunt) {
         src: '**',
         dest: '<%= config.dist %>/assets/'
       },
+      d3: {
+        expand: true,
+        cwd: 'bower_components/d3/',
+        src: 'd3.js',
+        dest: '<%= config.dist %>/assets/js/'
+      },
       theme: {
         expand: true,
         cwd: 'src/css/',
