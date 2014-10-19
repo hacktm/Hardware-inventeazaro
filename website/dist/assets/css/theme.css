@@ -133,6 +133,9 @@ background-image: linear-gradient(to bottom,#6aff65 0,#6aff65 100%)
 
   color: #000;
 }
+.intro .intro-body .brand-heading {
+font-size: 50px;
+}
 .navbar-inverse .navbar-nav>li>a:hover{
   color: #FFF;
   background-color: #299c00;
