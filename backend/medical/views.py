@@ -6,6 +6,7 @@ from rest_framework.authentication import TokenAuthentication, SessionAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import authentication_classes, permission_classes
 from models import DeviceHubProject
+from devicehub import getData
 
 
 class NoHardwareEndpoint(Exception):
@@ -101,3 +102,10 @@ class UserLatestData(APIView):
             }
             return Response(data)
 
+
+@authentication_classes((TokenAuthentication, SessionAuthentication))
+@permission_classes((IsAuthenticated,))
+class UserDataLearn(APIView):
+    def get(self, request, format=None):
+        user = request.user
+        return Response(getData(user))

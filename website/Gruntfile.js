@@ -43,7 +43,7 @@ module.exports = function(grunt) {
       },
       assets: {
         files: ['<%= config.src %>/css/*.css'],
-        tasks: ['copy:css']
+        tasks: ['copy:theme']
       },
       js: {
         files: ['<%= config.src %>/js/*.js'],
@@ -100,12 +100,18 @@ module.exports = function(grunt) {
         cwd: 'bower_components/bootstrap/dist/',
         src: '**',
         dest: '<%= config.dist %>/assets/'
-      },     
+      },
       xeditable: {
         expand: true,
         cwd: 'bower_components/x-editable/dist/bootstrap3-editable/',
         src: '**',
         dest: '<%= config.dist %>/assets/'
+      },
+      highcharts: {
+        expand: true,
+        cwd: 'bower_components/highcharts/',
+        src: '**',
+        dest: '<%= config.dist %>/assets/js/'
       },
       theme: {
         expand: true,
@@ -127,10 +133,10 @@ module.exports = function(grunt) {
      },
      font: {
        expand: true,
-       cwd: 'src/fonts/',
+       cwd: 'src/../fonts/',
        src: '**',
-       dest: '<%= config.dist %>/fonts/'
-     }     
+       dest: '<%= config.dist %>/../fonts/'
+     }
     },
 
     // Before generating any new files,

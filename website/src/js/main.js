@@ -1,16 +1,113 @@
 var Config = new Object(
   {
-    apiUrl  : 'http://medical.devicehub.net:8000',
+    apiUrl  : 'http://medical.devicehub.net',
     version : '0.0.1'
 
 
   }
-
-
 )
 
-function LoginController()
-{
+function DashboardController() {
+  $.ajax(
+    {
+      type: 'GET',
+      url: Config.apiUrl + '/profile'
+    }
+  )
+  .fail(function(response){
+
+    if(response.statusText=='UNAUTHORIZED'){
+      window.location = 'login.html';
+    console.log(response);
+    }
+  })
+  .done(function(response){
+      $("#gravatar").attr("src", response.userprofile.gravatar_img);
+  });
+
+  $.ajax(
+    {
+      type: 'GET',
+      url: Config.apiUrl + '/data-latest'
+    }
+  )
+  .fail(function(response){
+
+    if(response.statusText=='UNAUTHORIZED'){
+      window.location = 'login.html';
+    console.log(response);
+    }
+  })
+  .done(function(response){
+
+      for(key in response) {
+        val = response[key];
+        $('[name="'+ key +'"]').html(val.value);
+
+      }
+      for(var i = 0; i < $('option').length;i++) {
+          var opt = $('option')[i];
+          opt.text = opt.value;
+      }
+  });
+
+  $.ajax(
+    {
+      type: 'GET',
+      url: Config.apiUrl + '/data-history/pulse'
+    }
+  )
+  .fail(function(response) {
+    console.error('fail at data-history');
+  })
+  .done(function(response){
+    var items = [];
+    $.each( response, function( key, val ) {
+      items.push([val.timestamp, val.value]);
+    });
+
+    var chart1; // globally available
+    chart1 = new Highcharts.StockChart({
+       chart: {
+          renderTo: 'pulse-history'
+       },
+       rangeSelector: {
+          selected: 1,
+          enabled: false,
+       },
+       scrollbar: {
+         enabled: false,
+       },
+       series: [{
+          name: 'Pulse',
+          data: items // predefined JavaScript array
+       }]
+    });
+  });
+
+  $.ajax(
+    {
+      type: 'GET',
+      url: Config.apiUrl + '/data-learn'
+    }
+  )
+  .fail(function(response){
+    if(response.statusText=='UNAUTHORIZED') {
+      window.location = 'login.html';
+      console.log(response);
+    } else {
+      alert(response);
+
+    }
+  })
+  .done(function(response){
+      $.each( response, function( key, val ) {
+        $('.table tbody').append('<tr><td class="text-center">1</td><td>'+ response.suggestion + '</td></tr>')
+      });
+  });
+}
+
+function LoginController() {
 $('input[name="submit"]').click(function (e) {
     e.preventDefault();
     var self = this;
@@ -38,18 +135,16 @@ $('input[name="submit"]').click(function (e) {
         window.location = 'profile.html'
 
     });
-
-
-})
+  })
 }
-function IndexController()
-{
+
+function IndexController() {
   $('.navbar').removeClass('navbar-inverse');
 
 
 }
-function ProfileController()
-{
+
+function ProfileController() {
   $.ajax(
     {
       type: 'GET',
@@ -72,6 +167,9 @@ function ProfileController()
         $('[name="'+ key +'"]').html(val);
 
       }
+
+      $("#gravatar").attr("src", response.userprofile.gravatar_img);
+
       $('[name]').editable(
         {
           type: 'text',
@@ -88,8 +186,10 @@ function ProfileController()
 
   });
 }
-(function ($){
+
 $.fn.editable.defaults.mode = 'inline';
+
+(function ($){
 
   var page =  window.location.pathname.replace('/Hardware-inventeazaro/', '').replace('/', '').replace('.html', '');
   if(page == '')
@@ -99,7 +199,8 @@ $.fn.editable.defaults.mode = 'inline';
     $.ajaxSetup({
     beforeSend: function (request)      {
       request.setRequestHeader("Authorization", 'Token ' + sessionStorage.token || "None");
-  })
+  }
+  });
   }
 
   page = page.charAt(0).toUpperCase() + page.slice(1);

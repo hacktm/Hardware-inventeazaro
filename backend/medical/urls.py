@@ -1,6 +1,6 @@
 __author__ = 'cotty'
 from django.conf.urls import patterns, url
-from views import index, UserProfile, UserMedicalHistory, UserLatestData, UserDataHistory
+from views import index, UserProfile, UserMedicalHistory, UserLatestData, UserDataHistory, UserDataLearn
 
 urlpatterns = patterns('',
     # Examples:
@@ -13,4 +13,5 @@ urlpatterns = patterns('',
     url(r'^medical-history', UserMedicalHistory.as_view()),
     url(r'^data-latest', UserLatestData.as_view()),
     url(r'^data-history?(?:/(?P<item>\w+))?$', UserDataHistory.as_view()),
+    url(r'^data-learn', UserDataLearn.as_view()),
 )
