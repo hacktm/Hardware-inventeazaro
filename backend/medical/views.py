@@ -108,4 +108,4 @@ class UserLatestData(APIView):
 class UserDataLearn(APIView):
     def get(self, request, format=None):
         user = request.user
-        Response(getData(user))
+        return Response(getData(user))
