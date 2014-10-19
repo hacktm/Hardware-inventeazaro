@@ -56,7 +56,7 @@ volatile boolean Pulse = false;     // true when pulse wave is high, false when 
 volatile boolean QS = false;        // becomes true when Arduoino finds a beat.
 float last_bpm = 70;
 float sugar_level = 80;
-float temp_body = 30;
+float temp_body = 33;
 float panic_btn = 0;
 
 int panicpPin = 3;
@@ -67,6 +67,12 @@ bool personState = false;
 int inputPin = 2;               // choose the input pin (for PIR sensor)
 int pirState = LOW;             // we start, assuming no motion detected
 int val = 0;                    // variable for reading the pin status
+
+const int analogInPin = A1;  // Analog input pin that the potentiometer is attached to
+
+
+int sensorValue = 0;        // value read from the pot
+int outputValue = 0;        // value output to the PWM (analog out)
 
 void setup(){
   //Serial.begin(9600);
@@ -93,6 +99,7 @@ void setup(){
   dht.begin();
   pinMode(3,INPUT_PULLUP);
   pinMode(inputPin, INPUT);     // declare sensor as input
+  pinMode(A1,INPUT_PULLUP);
 }
 
 void loop() {
@@ -116,11 +123,7 @@ void loop() {
   // if you're not connected, and ten seconds have passed since
   // your last connection, then connect again and send data:
   if(!apiClient.connected() && (millis() - lastConnectionTime > postingInterval)) {
-    lcd.setCursor(0, 1);
-    lcd.print("Up devicehub.net");
     sendData();
-    lcd.setCursor(0, 1);
-    lcd.print("Up done        ");
   }
   // store the state of the connection for next time through
   // the loop:
@@ -173,6 +176,9 @@ void loop() {
       pirState = LOW;
     }
   }
+
+  temp_body = 219 - analogRead(analogInPin);
+  
 }
 
 // this method makes a HTTP connection to the devicehub server:
